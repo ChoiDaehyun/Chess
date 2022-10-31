@@ -10,7 +10,7 @@ int main() {
 		menuCode = menuDraw();
 		switch (menuCode)
 		{
-		case 0:; break; //게임시작
+		case 0:; startGame(); break; //게임시작
 		case 1: infoDraw(); break; //게임 정보
 		case 2: return 0; //종료
 		}

@@ -3,15 +3,15 @@
 
 void titleDraw() {
 	printf("\n\n\n\n");
-	printf("        #####  ##   ##  ##### ##### #####\n");
-	printf("        ##     ##   ##  ##    ##    ##   \n");
-	printf("        ##     #######  ####  ##### #####\n");
-	printf("        ##     ##   ##  ##       ##    ##\n");
-	printf("        ####   ##   ##  ##### ##### #####\n");
+	printf("            #####  ##   ##  ##### ##### #####\n");
+	printf("            ##     ##   ##  ##    ##    ##   \n");
+	printf("            ##     #######  ####  ##### #####\n");
+	printf("            ##     ##   ##  ##       ##    ##\n");
+	printf("            ####   ##   ##  ##### ##### #####\n");
 }
 
 int menuDraw() {
-	int x = 20, y = 12;
+	int x = 22, y = 12;
 	gotoxy(x-2, y);
 	printf("> 게임 시작");	
 	gotoxy(x, y+1);
@@ -71,4 +71,22 @@ void infoDraw() {
 			break;
 		}
 	}
+}
+
+void startGame() {
+	system("cls");
+	char space[8][8];
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			space[i][j] = '-';
+		}
+	}
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			printf("%c ", space[i][j]);
+		}
+		printf("\n");
+	}
+	keyControl();
+
 }
