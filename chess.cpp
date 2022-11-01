@@ -1,5 +1,6 @@
 #include "chess.h"
 #include "util.h"
+#include "piece.h"
 
 void titleDraw() {
 	printf("\n\n\n\n");
@@ -75,15 +76,16 @@ void infoDraw() {
 
 void startGame() {
 	system("cls");
-	char space[8][8];
+	Piece (*board)[8];
+	board = pieceInit();
+	//for (int i = 0; i < 8; i++) {
+	//	for (int j = 0; j < 8; j++) {
+	//		board[i][j] = '-';
+	//	}
+	//}
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			space[i][j] = '-';
-		}
-	}
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			printf("%c ", space[i][j]);
+			printf("%c ", board[i][j].name);
 		}
 		printf("\n");
 	}
