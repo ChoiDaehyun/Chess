@@ -1,18 +1,29 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "util.h"
 #include "chess.h"
+//#include <tchar.h>
+//#include <locale.h>
+
+using namespace std;
 
 int main() {
 	int menuCode;
 	init();
+
+	//printf("\u2654");
+	//_wsetlocale(LC_ALL, L"Korea");
+	//wchar_t ch = _T('â™–');
+	//printf("%wc", ch);
+
 	while (1) {
+		setColor(black, lightgray);
 		titleDraw();
 		menuCode = menuDraw();
 		switch (menuCode)
 		{
-		case 0:; startGame(); break; //°ÔÀÓ½ÃÀÛ
-		case 1: infoDraw(); break; //°ÔÀÓ Á¤º¸
-		case 2: return 0; //Á¾·á
+		case 0:; startGame(); break; //ê²Œìž„ì‹œìž‘
+		case 1: infoDraw(); break; //ê²Œìž„ ì •ë³´
+		case 2: return 0; //ì¢…ë£Œ
 		}
 		system("cls");
 	}

@@ -1,5 +1,6 @@
 #pragma once
 #include "main.h"
+#include "piece.h"
 
 #define UP 0
 #define DOWN 1
@@ -13,3 +14,4 @@ int menuDraw();
 int keyControl();
 void infoDraw();
 void startGame();
+void boardDraw(Piece (*board)[8]);

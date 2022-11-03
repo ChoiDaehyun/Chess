@@ -6,14 +6,16 @@ Piece (*pieceInit())[8]
 	Piece piece;
 	int i,j ;
 	for (i = 0; i < 8; i++)
-		for (j = 0; j < 8; j++)
+		for (j = 0; j < 8; j++) {
 			pieces[i][j].name = '-';
+			pieces[i][j].exist = 0;
+		}
 
 	//Rook
 	piece.name = 'r'; 
-	piece.exist = -1;
+	piece.exist = -1; //Èæ
 	pieces[0][0] = piece; pieces[0][7] = piece;
-	piece.exist = 1;
+	piece.exist = 1; //¹é
 	pieces[7][0] = piece; pieces[7][7] = piece;
 
 	//Knight
@@ -63,4 +65,12 @@ Piece (*pieceInit())[8]
 	}
 
 	return pieces;
+}
+
+void SetPieceColor(Piece piece)
+{
+	if (piece.exist == 1) //¹é
+		setColor(white, lightgray);
+	else //if (piece.exist == -1) //Èæ
+		setColor(black, lightgray);
 }
