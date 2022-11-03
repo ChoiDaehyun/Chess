@@ -15,3 +15,4 @@ int keyControl();
 void infoDraw();
 void startGame();
 void boardDraw(Piece (*board)[8]);
+void userPos(int *x, int *y, Piece (*board)[8], int direction);

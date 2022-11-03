@@ -4,7 +4,6 @@
 //#include <tchar.h>
 //#include <locale.h>
 
-using namespace std;
 
 int main() {
 	int menuCode;
@@ -16,7 +15,7 @@ int main() {
 	//printf("%wc", ch);
 
 	while (1) {
-		setColor(black, lightgray);
+		setColor(white, black);
 		titleDraw();
 		menuCode = menuDraw();
 		switch (menuCode)

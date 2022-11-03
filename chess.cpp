@@ -92,41 +92,21 @@ void startGame() {
 		{
 		case UP:
 			if (y > 0) {
-				gotoxy(x, y);
-				SetPieceColor(board[y][x]);
-				printf("%c", board[y][x].name);
-				gotoxy(x, --y);
-				setColor(red, lightgray);
-				printf("%c", board[y][x].name);
+				userPos(&x, &y, board, UP);
 			}
 			break;
 		case DOWN:
 			if (y < 7) {
-				gotoxy(x, y);
-				SetPieceColor(board[y][x]);
-				printf("%c", board[y][x].name);
-				gotoxy(x, ++y);
-				setColor(red, lightgray);
-				printf("%c", board[y][x].name);
+				userPos(&x, &y, board, DOWN);
 			}break;
 		case LEFT:
 			if (x > 0) {
-				gotoxy(x, y);
-				SetPieceColor(board[y][x]);
-				printf("%c", board[y][x].name);
-				gotoxy(--x, y);
-				setColor(red, lightgray);
-				printf("%c", board[y][x].name);
+				userPos(&x, &y, board, LEFT);
 			}
 			break;
 		case RIGHT:
 			if (x < 7) {
-				gotoxy(x, y);
-				SetPieceColor(board[y][x]);
-				printf("%c", board[y][x].name);
-				gotoxy(++x, y);
-				setColor(red, lightgray);
-				printf("%c", board[y][x].name);
+				userPos(&x, &y, board, RIGHT);
 			}
 			break;
 		case SUBMIT:
@@ -139,25 +119,49 @@ void startGame() {
 
 				
 			}
+			setColor(white, black);
 			return;
 		}
 		turn *= -1; //턴 전환
 	}
 
 	
-
+	setColor(white, black);
 }
 
 void boardDraw(Piece (*board)[8]) {
-	setColor(blue, lightgray);
+	int forground, background;
+
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			if (board[i][j].exist == 1)
-				setColor(white, lightgray);
-			else setColor(black, lightgray);
-			printf("%c", board[i][j].name);
+			if ((i + j) % 2 == 0) background = green; //set background color 
+			else background = brown;
+			if (board[i][j].exist == 1) //set forground color
+				forground = white;
+			else forground = black;
+
+			setColor(forground, background);
+			printf("%c", board[i][j].name); //출력
 		}
 		printf("\n");
 	}
-	setColor(black, lightgray);
+	setColor(white, black);
+}
+
+void userPos(int *x, int *y, Piece(*board)[8], int direction)
+{
+	int a = board[*x][*y].pos[0], b = board[*x][*y].pos[1];
+	gotoxy(*x, *y);
+	SetPieceColor(board[*y][*x]);
+	printf("%c", board[*y][*x].name);
+	switch (direction)
+	{
+	case UP: gotoxy(*x, --*y); break;
+	case DOWN: gotoxy(*x, ++*y); break;
+	case LEFT: gotoxy(--*x, *y); break;
+	case RIGHT: gotoxy(++*x, *y); break;
+	}
+	if ((*x + *y) % 2 == 0) setColor(red, green); //set background color 
+	else setColor(red, brown);
+	printf("%c", board[*y][*x].name);
 }
