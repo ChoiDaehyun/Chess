@@ -1,1 +1,2 @@
 C:\dev\chess\x64\Release\chess.exe
+C:\Dev\Chess_Game\x64\Release\chess.exe

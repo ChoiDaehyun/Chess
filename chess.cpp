@@ -8,7 +8,7 @@ void titleDraw() {
 	printf("            ##     ##   ##  ##    ##    ##   \n");
 	printf("            ##     #######  ####  ##### #####\n");
 	printf("            ##     ##   ##  ##       ##    ##\n");
-	printf("            ####   ##   ##  ##### ##### #####\n");
+	printf("            #####  ##   ##  ##### ##### #####\n");
 }
 
 int menuDraw() {
@@ -75,18 +75,20 @@ void infoDraw() {
 }
 
 void startGame() {
-	system("cls");
-	int turn = 1, key;
-	int x = 0, y = 0;
-
+	system("cls"); //보드 출력전 화면 비우기
+	int x = 0, y = 0, key; //사용자 위치(x,y)와 사용자 키보드 입력 변수
+	int turn = Black;
 	Piece (*board)[8]; //board 선언
 	Piece catchPiece;
+
 	board = pieceInit(); //board 초기화
-	gotoxy(0,0);
 	boardDraw(board); //board 출력
+	userPos(&x, &y, board, -1); 
+
+	switchTurn(&x, &y, &turn);
 
 	while (1) {
-		//setColor(black, lightgray);
+		gotoxy(x, y);
 		key = keyControl();
 		switch (key)
 		{
@@ -114,22 +116,24 @@ void startGame() {
 			if (turn == catchPiece.exist) //player에 맞는 색상의 기물 선택
 			{
 
+				turn *= -1; //턴 전환
 			}
 			else {
+				gotoxy(0, 9);
+				//printf
 
-				
 			}
-			setColor(white, black);
+			//setColor(white, black);
 			return;
 		}
-		turn *= -1; //턴 전환
 	}
 
-	
+
 	setColor(white, black);
 }
 
 void boardDraw(Piece (*board)[8]) {
+	gotoxy(0,0);
 	int forground, background;
 
 	for (int i = 0; i < 8; i++) {
@@ -150,18 +154,29 @@ void boardDraw(Piece (*board)[8]) {
 
 void userPos(int *x, int *y, Piece(*board)[8], int direction)
 {
-	int a = board[*x][*y].pos[0], b = board[*x][*y].pos[1];
 	gotoxy(*x, *y);
-	SetPieceColor(board[*y][*x]);
-	printf("%c", board[*y][*x].name);
-	switch (direction)
-	{
-	case UP: gotoxy(*x, --*y); break;
-	case DOWN: gotoxy(*x, ++*y); break;
-	case LEFT: gotoxy(--*x, *y); break;
-	case RIGHT: gotoxy(++*x, *y); break;
+	if (direction != -1) {
+		SetPieceColor(board[*y][*x]);
+		printf("%c", board[*y][*x].name);
+		switch (direction)
+		{
+		case UP: gotoxy(*x, --*y); break;
+		case DOWN: gotoxy(*x, ++*y); break;
+		case LEFT: gotoxy(--*x, *y); break;
+		case RIGHT: gotoxy(++*x, *y); break;
+		default:;
+		}
 	}
 	if ((*x + *y) % 2 == 0) setColor(red, green); //set background color 
 	else setColor(red, brown);
 	printf("%c", board[*y][*x].name);
+}
+
+void switchTurn(int *x, int *y, int *turn)
+{
+	*turn *= -1; 
+	gotoxy(0, 9);
+	setColor(white, black);
+	printf("Turn of %d", *turn);
+	gotoxy(*x, *y); //위치 복구
 }

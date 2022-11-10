@@ -1,6 +1,9 @@
 ﻿  chess.cpp
   main.cpp
+  piece.cpp
+C:\Dev\Chess_Game\piece.cpp(73,17): warning C4101: 'background' :참조되지 않은 지역 변수입니다.
   util.cpp
   코드를 생성하고 있습니다...
-C:\dev\chess\chess.cpp(59): warning C4715: 'keyControl': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  chess.vcxproj -> C:\dev\chess\x64\Debug\chess.exe
+C:\Dev\Chess_Game\piece.cpp(67): warning C4172: 지역 변수 또는 임시: pieces의 주소를 반환하고 있습니다.
+C:\Dev\Chess_Game\chess.cpp(59): warning C4715: 'keyControl': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  chess.vcxproj -> C:\Dev\Chess_Game\x64\Debug\chess.exe
