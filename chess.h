@@ -16,4 +16,6 @@ void infoDraw();
 void startGame();
 void boardDraw(Piece (*board)[8]);
 void userPos(int *x, int *y, Piece (*board)[8], int direction);
-void switchTurn(int *x, int *y, int *turn);
+
+int Rook_move(Piece(*board)[8], Piece catchPiece, int turn);
+void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* catchPiece2, Piece catchPiece_2, int* success);
