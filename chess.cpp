@@ -124,12 +124,14 @@ void startGame()
 	int turn = 1, key;
 	int x = 0, y = 0;
 
-
 	Piece(*board)[8]; //board 선언
 	Piece catchPiece;
 	board = pieceInit(); //board 초기화
 	gotoxy(0, 0);
 	boardDraw(board); //board 출력
+
+	gotoxy(0, 10);
+	printf("Turn of White");	// 초기 시작자의 색 표시.(이후에 턴 바뀌면서 알아서 사라짐)
 
 	while (1)
 	{
@@ -173,6 +175,12 @@ void startGame()
 				case 'B':
 					success = Bishop_move(board, &catchPiece, turn);
 					break;
+				case 'N':
+					success = Knight_move(board, &catchPiece, turn);
+					break;
+				case 'P':
+					success = Phone_move(board, &catchPiece, turn);
+					break;
 				}
 				setColor(white, black);
 				break;
@@ -181,13 +189,253 @@ void startGame()
 		}
 		if (success != 1)			//기물 움직임 구현에 성공하지 못할경우 다시 처음으로 돌아가기
 			continue;
-		else turn *= -1; //턴 전환
+
+		switchTurn(&x, &y, &turn);
+		//else turn *= -1; //턴 전환
 
 
 
 		setColor(white, black);
 	}
 }
+
+int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn)
+{
+	gotoxy(3, 3);
+	printf("%d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	int x = catchPiece->pos[1];
+	int y = catchPiece->pos[0];
+	while (1)
+	{
+		//setColor(black, lightgray);
+
+		int key = keyControl();
+		switch (key)
+		{
+		case UP:
+			if (y > 0)
+			{
+				userPos(&x, &y, board, UP, lightblue);
+			}
+			break;
+		case DOWN:
+			if (y < 7)
+			{
+				userPos(&x, &y, board, DOWN, lightblue);
+			}break;
+		case LEFT:
+			if (x > 0)
+			{
+				userPos(&x, &y, board, LEFT, lightblue);
+			}
+			break;
+		case RIGHT:
+			if (x < 7)
+			{
+				userPos(&x, &y, board, RIGHT, lightblue);
+			}
+			break;
+		case SUBMIT:
+			Piece catchPiece2 = board[y][x];
+			int x1 = catchPiece->pos[1];			// 처음 위치
+			int y1 = catchPiece->pos[0];
+			int x2 = catchPiece2.pos[1];			// 이동될 위치
+			int y2 = catchPiece2.pos[0];
+
+			// ((x1 + 2 == x2)&&(y1 + 1 == y2))||((x1 + 2 == x2)&&(y1 + 1 == y2))||((x1 + 2 == x2)&&(y1 + 1 == y2))||((x1 + 2 == x2)&&(y1 + 1 == y2))|
+			if (((x1 + 2 == x2) && (y1 + 1 == y2)) || ((x1 + 2 == x2) && (y1 - 1 == y2))
+				|| ((x1 + 1 == x2) && (y1 + 2 == y2)) || ((x1 + 1 == x2) && (y1 - 2 == y2))
+				|| ((x1 - 1 == x2) && (y1 + 2 == y2)) || ((x1 - 1 == x2) && (y1 - 2 == y2))
+				|| ((x1 - 2 == x2) && (y1 + 1 == y2)) || ((x1 - 2 == x2) && (y1 - 1 == y2))
+				)
+			{
+				board[y2][x2] = { 'N', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+				gotoxy(x2, y2);
+				printf("%c", catchPiece->name);
+
+				board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+				gotoxy(x1, y1);
+				printf("%c", board[y2][x2].name);
+				return 1;
+			}
+			else return 0;
+		}
+		
+
+	}
+}
+
+int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn)
+{
+	gotoxy(3, 3);
+	printf("%d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	int x = catchPiece->pos[1];
+	int y = catchPiece->pos[0];
+	while (1)
+	{
+		//setColor(black, lightgray);
+
+		int key = keyControl();
+		switch (key)
+		{
+		case UP:
+			if (y > 0)
+			{
+				userPos(&x, &y, board, UP, lightblue);
+			}
+			break;
+		case DOWN:
+			if (y < 7)
+			{
+				userPos(&x, &y, board, DOWN, lightblue);
+			}break;
+		case LEFT:
+			if (x > 0)
+			{
+				userPos(&x, &y, board, LEFT, lightblue);
+			}
+			break;
+		case RIGHT:
+			if (x < 7)
+			{
+				userPos(&x, &y, board, RIGHT, lightblue);
+			}
+			break;
+		case SUBMIT:
+			Piece catchPiece2 = board[y][x];
+			int x1 = catchPiece->pos[1];			//처음 위치
+			int y1 = catchPiece->pos[0];
+			int x2 = catchPiece2.pos[1];			//이동될 위치
+			int y2 = catchPiece2.pos[0];
+
+			if (turn == 1)
+			{
+				if ((y2 == (y1 - 1)) && (x1 == x2))
+				{
+					if (board[y1 - 1][x1].exist == 0)
+					{
+						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };									// 처음 위치 구조체를 이동할 위치에 대입.
+						gotoxy(x2, y2);
+						printf("%c", catchPiece->name);
+
+						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x1, y1);
+						printf("%c", catchPiece->name);
+						return 1;
+					}
+					else return 0;
+				}
+
+				else if ((y2 == (y1 - 2)) && (x1 == x2))
+				{
+					if (y1 == 6)
+						{
+
+						if ((board[y1 - 1][x1].exist == 0) && (board[y1 - 2][x1].exist == 0))
+						{
+							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+							gotoxy(x2, y2);
+							printf("%c", catchPiece->name);
+							board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+							gotoxy(x1, y1);
+							printf("%c", board[y2][x2].name);
+							return 1;
+							}
+						}
+						else return 0;
+				}
+				
+				else if (((y2 == (y1 - 1)) && (x2 == (x1 + 1)))||((y2 == (y1 - 1) && (x2 == (x1 - 1)))))
+				{
+					if (board[y2][x2].exist == -1)
+					{
+						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+						gotoxy(x2, y2);
+						printf("%c", catchPiece->name);
+
+						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x1, y1);
+						printf("%c", catchPiece->name);
+						return 1;
+					}
+					else return 0;
+				}
+			}
+			else if (turn == -1)
+			{
+				if ((y1 == (y2 - 1)) && (x1 == x2))
+				{
+					if (board[y1 + 1][x1].exist == 0)
+					{
+						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };									// 처음 위치 구조체를 이동할 위치에 대입.
+						gotoxy(x2, y2);
+						printf("%c", catchPiece->name);
+
+						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x1, y1);
+						printf("%c", catchPiece->name);
+						return 1;
+					}
+					else return 0;
+				}
+
+				else if ((y1 == (y2 - 2)) && (x1 == x2))
+				{
+					if (y1 == 1)
+					{
+						if ((board[y1 + 1][x1].exist == 0) && (board[y1 + 2][x1].exist == 0))
+						{
+							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+							gotoxy(x2, y2);
+							printf("%c", catchPiece->name);
+							board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+							gotoxy(x1, y1);
+							printf("%c", board[y2][x2].name);
+							return 1;
+						}
+					}
+					else return 0;
+				}
+
+				else if (((y2 == (y1 + 1)) && (x2 == (x1 + 1))) || ((y2 == (y1 + 1) && (x2 == (x1 - 1)))))
+				{
+					if (board[y2][x2].exist == 1)
+					{
+						board[y2][x2] = {'P', {y2,x2}, catchPiece->exist};											// 처음 위치 구조체를 이동할 위치에 대입.
+						gotoxy(x2, y2);
+						printf("%c", catchPiece->name);
+
+						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x1, y1);
+						printf("%c", catchPiece->name);
+						return 1;
+					}
+				}
+			}
+
+		}
+
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 int Rook_move(Piece(*board)[8], Piece* catchPiece, int turn)						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
@@ -326,7 +574,7 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 
 int Bishop_move(Piece(*board)[8], Piece* catchPiece, int turn)						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
-	gotoxy(3, 3);
+	gotoxy(0, 13);
 	printf("%d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
@@ -457,4 +705,19 @@ void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, 
 		*p_success = 1;														// success 값을 1로 바꾸기(= 성공)
 		return;
 	}
+}
+
+
+
+void switchTurn(int* x, int* y, int* turn)
+{
+	*turn *= -1;
+	gotoxy(0, 10);
+	setColor(white, black);
+	if (*turn == 1)
+	{
+		printf("Turn of White");
+	}
+	else printf("Turn of Black");
+	gotoxy(*x, *y); //위치 복구
 }

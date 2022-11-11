@@ -21,3 +21,7 @@ int Rook_move(Piece(*board)[8], Piece* catchPiece, int turn);
 void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* catchPiece2, Piece catchPiece_2, int* success);
 int Bishop_move(Piece(*board)[8], Piece* catchPiece, int turn);
 void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success);
+int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn);
+int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn);
+
+void switchTurn(int* x, int* y, int* turn);

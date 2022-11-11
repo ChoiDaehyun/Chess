@@ -46,7 +46,7 @@ Piece (*pieceInit())[8]
 	piece.exist = 1;
 	pieces[7][4] = piece;
 
-	/*
+	
 	//Pawn
 	piece.name = 'P';
 	piece.exist = -1;
@@ -55,7 +55,7 @@ Piece (*pieceInit())[8]
 	piece.exist = 1;
 	for (i = 0; i < 8; i++)
 		pieces[6][i] = piece;
-	*/
+	
 	//position
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
@@ -80,3 +80,5 @@ void SetPieceColor(Piece piece)
 		setColor(forground, green);
 	else setColor(forground, brown);
 }
+
+
