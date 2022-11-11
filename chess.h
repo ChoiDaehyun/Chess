@@ -15,7 +15,9 @@ int keyControl();
 void infoDraw();
 void startGame();
 void boardDraw(Piece (*board)[8]);
-void userPos(int *x, int *y, Piece (*board)[8], int direction);
+void userPos(int *x, int *y, Piece (*board)[8], int direction, int color);
 
-int Rook_move(Piece(*board)[8], Piece catchPiece, int turn);
+int Rook_move(Piece(*board)[8], Piece* catchPiece, int turn);
 void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* catchPiece2, Piece catchPiece_2, int* success);
+int Bishop_move(Piece(*board)[8], Piece* catchPiece, int turn);
+void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success);
