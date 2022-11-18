@@ -26,6 +26,8 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn,int* win);
 int Queen_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* win);
 int King_move(Piece(*board)[8], Piece* catchPiece, int turn,int* win);
 
+void promotion(Piece(*board)[8], Piece catchPiece2);
+
 
 
 

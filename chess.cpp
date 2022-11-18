@@ -8,7 +8,7 @@ void titleDraw() {
 	printf("            ##     ##   ##  ##    ##    ##   \n");
 	printf("            ##     #######  ####  ##### #####\n");
 	printf("            ##     ##   ##  ##       ##    ##\n");
-	printf("            ####   ##   ##  ##### ##### #####\n");
+	printf("            #####  ##   ##  ##### ##### #####\n");
 }
 
 int menuDraw() {
@@ -717,7 +717,6 @@ int King_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 
 }
 
-
 int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 {
 	gotoxy(3, 3);
@@ -780,6 +779,10 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
 						gotoxy(x1, y1);
 						printf("%c", catchPiece->name);
+
+						if (catchPiece2.pos[0] == 0)											// 프로모션
+							promotion(board, catchPiece2);
+
 						return 1;
 					}
 					else return 0;
@@ -818,10 +821,16 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 
 						if (whatname == 'K')
 							*win = turn;
+						else if (catchPiece2.pos[0] == 0)										// 프로모션
+							promotion(board, catchPiece2);
+								
 						return 1;
 					}
 					else return 0;
 				}
+
+
+
 			}
 			else if (turn == -1)
 			{
@@ -836,6 +845,10 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
 						gotoxy(x1, y1);
 						printf("%c", catchPiece->name);
+
+						if (catchPiece2.pos[0] == 7)											//프로모션
+							promotion(board, catchPiece2);
+
 						return 1;
 					}
 					else return 0;
@@ -873,23 +886,18 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 
 						if (whatname == 'K')
 							*win = turn;
+						else if (catchPiece2.pos[0] == 7)													//프로모션
+							promotion(board, catchPiece2);
 						return 1;
 					}
 				}
+
 			}
 
 		}
 
 	}
 }
-
-
-
-
-
-
-
-
 
 void switchTurn(int* x, int* y, int* turn)
 {
@@ -903,4 +911,62 @@ void switchTurn(int* x, int* y, int* turn)
 	else printf("Turn of Black");
 	gotoxy(*x, *y); //위치 복구
 }
+
+void promotion(Piece(*board)[8], Piece catchPiece2)
+{
+	int y_pos = catchPiece2.pos[0];
+	int x_pos = catchPiece2.pos[1];
+
+
+	char promote_option[] = { 'P', 'R', 'N', 'B', 'Q' };
+	int x = 0;
+	gotoxy(0, 11);
+	setColor(white, black);
+	for (int i = 0; i < 5; i++)
+	{
+		printf("%c", promote_option[i]);
+	}
+
+	while (1)
+	{
+		int key = keyControl();
+		switch (key)
+		{
+		case LEFT:
+			if (x > 0)
+			{
+				gotoxy(x, 11);
+				setColor(white, black);
+				printf("%c", promote_option[x]);
+				setColor(black, white);
+				gotoxy(--x, 11);
+				printf("%c", promote_option[x]);
+			}
+			break;
+		case RIGHT:
+			if (x < 4)
+			{
+				gotoxy(x, 11);
+				setColor(white, black);
+				printf("%c", promote_option[x]);
+				setColor(black, white);
+				gotoxy(++x, 11);
+				printf("%c", promote_option[x]);
+			}
+			break;
+		case SUBMIT:
+			board[y_pos][x_pos].name = promote_option[x];
+
+			gotoxy(0, 11);
+			for (int i = 0; i < 5; i++)
+			{
+				setColor(white, black);
+				printf(" ");
+			}
+			return;
+		}
+	}
+
+}
+
 
