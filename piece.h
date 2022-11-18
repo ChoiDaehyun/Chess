@@ -10,6 +10,7 @@ typedef struct {
 	char name;
 	int pos[2];
 	int exist;
+	int castling;
 } Piece;
 
 Piece (*pieceInit())[8]; //기물 초기화

@@ -339,7 +339,7 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 		int x2 = catchPiece.pos[1];
 		int y2 = catchPiece.pos[0];
 
-		board[y][x] = { name, {y,x}, catchPiece.exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+		board[y][x] = { name, {y,x}, catchPiece.exist, 0 };											// 처음 위치 구조체를 이동할 위치에 대입.
 		gotoxy(x, y);
 		printf("%c", catchPiece.name);
 
@@ -698,7 +698,7 @@ int King_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 				{
 					return 0;
 				}
-				board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+				board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };											// 처음 위치 구조체를 이동할 위치에 대입.
 				gotoxy(x2, y2);
 				printf("%c", catchPiece->name);
 
@@ -710,7 +710,123 @@ int King_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 					*win = turn;
 				return 1;
 			}
-			else return 0;
+			else if(((x1 -2) == x2)&&(y1 == y2))	//	else if(((((x1 -2) == x2)||((x1 +2) == x2)))&&(y1 == y2))		// 캐슬링, 좌로 이동시
+			{
+
+				if (turn == 1)															// White 팀일 때
+				{
+					if (board[7][1].exist || board[7][2].exist || board[7][3].exist)	// 사이에 말이 존재하는 경우
+						return 0;
+
+					if ((board[7][0].castling && catchPiece->castling))
+					{
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[7][0] = { '-', {7, 0}, 0 };
+						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
+						board[7][3] = { 'R', {7, 3}, catchPiece->exist, 0 };
+
+						gotoxy(x2, y2);													//name 변환
+						setColor(white, brown);
+						printf("%c", catchPiece->name);
+						gotoxy(0, 7);
+						printf("%c", board[7][0].name);
+						gotoxy(x1, y1);
+						printf("%c", board[y1][x1].name);
+
+
+						gotoxy(3, 7);
+						setColor(white, green);
+						printf("%c", board[7][3].name);
+						return 1;
+					}
+				}
+				else if (turn == -1)
+				{
+					if (board[0][1].exist || board[0][2].exist || board[0][3].exist)	// 사이에 말이 존재하는 경우
+						return 0;
+
+					if ((board[0][0].castling && catchPiece->castling))
+					{
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[0][0] = { '-', {0, 0}, 0 };
+						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
+						board[0][3] = { 'R', {0, 3}, catchPiece->exist, 0 };
+
+						gotoxy(x2, y2);													//name 변환
+						setColor(black, green);
+						printf("%c", catchPiece->name);
+						gotoxy(0, 0);
+						printf("%c", board[0][0].name);
+						gotoxy(x1, y1);
+						printf("%c", board[y1][x1].name);
+
+						gotoxy(3, 0);
+						setColor(black, brown);
+						printf("%c", board[0][3].name);
+						return 1;
+					}
+				}
+			}
+
+			else if (((x1 + 2) == x2) && (y1 == y2))	//	else if(((((x1 -2) == x2)||((x1 +2) == x2)))&&(y1 == y2))		// 캐슬링, 우로 이동시
+			{
+				if (turn == 1)															// White 팀일 때
+				{
+					if (board[7][5].exist || board[7][6].exist)							// 사이에 말이 존재하는 경우
+						return 0;
+
+					if ((board[7][7].castling && catchPiece->castling))
+					{
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[7][7] = { '-', {7, 7}, 0 };
+						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
+						board[7][5] = { 'R', {7, 5}, catchPiece->exist, 0 };
+
+						gotoxy(x2, y2);													//name 변환
+						setColor(white, brown);
+						printf("%c", board[y2][x2].name);
+						gotoxy(x1, y1);
+						printf("%c", board[y1][x1].name);
+
+						gotoxy(5, 7);
+						setColor(white, green);
+						printf("%c", board[7][5].name);
+						gotoxy(7, 7);
+						printf("%c", board[7][7].name);
+
+						return 1;
+					}
+				}
+				else if (turn == -1)
+				{
+					if (board[0][5].exist || board[0][6].exist)							// 사이에 말이 존재하는 경우
+						return 0;
+
+					if ((board[0][7].castling && catchPiece->castling))
+					{
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[0][7] = { '-', {7, 0}, 0 };
+						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
+						board[0][5] = { 'R', {5, 0}, catchPiece->exist, 0 };
+
+						gotoxy(x2, y2);													//name 변환
+						setColor(black, green);
+						printf("%c", board[y2][x2].name);
+						gotoxy(x1, y1);
+						printf("%c", board[y1][x1].name);
+
+
+						gotoxy(7, 0);
+						setColor(black, brown);
+						printf("%c", board[0][7].name);
+						gotoxy(5, 0);
+						printf("%c", board[0][5].name);
+						return 1;
+					}
+				}
+			}
+
+				else return 0;
 		}
 
 	}

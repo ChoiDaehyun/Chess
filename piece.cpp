@@ -14,6 +14,7 @@ Piece (*pieceInit())[8]
 	//Rook
 	piece.name = 'R'; 
 	piece.exist = -1; //Èæ
+	piece.castling = 1;
 	pieces[0][0] = piece; pieces[0][7] = piece;
 	piece.exist = 1; //¹é
 	pieces[7][0] = piece; pieces[7][7] = piece;
@@ -42,6 +43,7 @@ Piece (*pieceInit())[8]
 	//King
 	piece.name = 'K';
 	piece.exist = -1;
+	piece.castling = 1;
 	pieces[0][4] = piece;
 	piece.exist = 1;
 	pieces[7][4] = piece;
