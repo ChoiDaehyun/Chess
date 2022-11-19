@@ -52,6 +52,7 @@ Piece (*pieceInit())[8]
 	//Pawn
 	piece.name = 'P';
 	piece.exist = -1;
+	piece.en_passant = 0;
 	for (i = 0; i < 8; i++)
 		pieces[1][i] = piece;
 	piece.exist = 1;

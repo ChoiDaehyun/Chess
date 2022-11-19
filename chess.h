@@ -27,7 +27,7 @@ int Queen_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* wi
 int King_move(Piece(*board)[8], Piece* catchPiece, int turn,int* win);
 
 void promotion(Piece(*board)[8], Piece catchPiece2);
-
+void en_passant_reset(Piece(*board)[8], int turn);
 
 
 

@@ -197,6 +197,8 @@ int startGame()
 		if (success != 1)			//기물 움직임 구현에 성공하지 못할경우 다시 처음으로 돌아가기
 			continue;
 
+		en_passant_reset(board, turn);
+
 		if (win == 1)
 			return 1;
 		else if (win == -1)
@@ -208,6 +210,17 @@ int startGame()
 
 
 		setColor(white, black);
+	}
+}
+
+void en_passant_reset(Piece(*board)[8], int turn)
+{
+	for (int i = 0; i < 7; i++)
+	{
+		if(turn == 1)
+		board[2][i].en_passant = 0;
+		else if(turn == -1)
+		board[5][i].en_passant = 0;
 	}
 }
 
@@ -911,7 +924,8 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 
 						if ((board[y1 - 1][x1].exist == 0) && (board[y1 - 2][x1].exist == 0))
 						{
-							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist};											// 처음 위치 구조체를 이동할 위치에 대입.
+							board[y2 + 1][x2].en_passant = 1;							// 앙파상 조건 만들기
 							gotoxy(x2, y2);
 							printf("%c", catchPiece->name);
 							board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
@@ -925,6 +939,24 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 
 				else if (((y2 == (y1 - 1)) && (x2 == (x1 + 1))) || ((y2 == (y1 - 1) && (x2 == (x1 - 1)))))
 				{
+					if (board[y2][x2].en_passant == -1)
+					{
+						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+						gotoxy(x2, y2);
+						printf("%c", catchPiece->name);
+
+						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x1, y1);
+						printf("%c", catchPiece->name);
+
+						board[y2+1][x2] = { '-', {y2+1, x2}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x2, y2+1);
+						printf("%c", catchPiece->name);
+					}
+
+
+				
+
 					if (board[y2][x2].exist == -1)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
@@ -977,6 +1009,7 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 						if ((board[y1 + 1][x1].exist == 0) && (board[y1 + 2][x1].exist == 0))
 						{
 							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+							board[y2 - 1][x2].en_passant = -1;							// 앙파상 조건 만들기
 							gotoxy(x2, y2);
 							printf("%c", catchPiece->name);
 							board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
@@ -990,6 +1023,22 @@ int Phone_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win)
 
 				else if (((y2 == (y1 + 1)) && (x2 == (x1 + 1))) || ((y2 == (y1 + 1) && (x2 == (x1 - 1)))))
 				{
+
+					if (board[y2][x2].en_passant == 1)
+					{
+						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
+						gotoxy(x2, y2);
+						printf("%c", catchPiece->name);
+
+						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x1, y1);
+						printf("%c", catchPiece->name);
+
+						board[y2 - 1][x2] = { '-', {y2-1, x2}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+						gotoxy(x2, y2 - 1);
+						printf("%c", catchPiece->name);
+					}
+
 					if (board[y2][x2].exist == 1)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
@@ -1084,5 +1133,3 @@ void promotion(Piece(*board)[8], Piece catchPiece2)
 	}
 
 }
-
-

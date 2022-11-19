@@ -11,6 +11,7 @@ typedef struct {
 	int pos[2];
 	int exist;
 	int castling;
+	int en_passant;
 } Piece;
 
 Piece (*pieceInit())[8]; //기물 초기화
