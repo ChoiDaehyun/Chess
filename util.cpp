@@ -24,3 +24,17 @@ void setColor(int forground, int background)
 	int code = forground + background * 16;
 	SetConsoleTextAttribute(consoleHandle, code);
 }
+
+int keyControl() {
+	int i = _getch();
+	if (i == 224) {
+		i = _getch();
+		switch (i) {
+		case 72: return UP;
+		case 80: return DOWN;
+		case 75: return LEFT;
+		case 77: return RIGHT;
+		}
+	}
+	else if (i == ' ') return SUBMIT;
+}
