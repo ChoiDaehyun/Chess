@@ -12,3 +12,5 @@ void boardDraw(Piece (*board)[8]);
 
 void switchTurn(int* x, int* y, int* turn);
 void writeNotation(int x, int y);
+
+

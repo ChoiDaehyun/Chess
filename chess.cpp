@@ -110,8 +110,11 @@ void userPos(int* x, int* y, Piece(*board)[8], int direction, int color)
 
 int startGame()
 {
+	char Gibo[100][7] = { 0 };
+
 	system("cls");
 	int turn = 1, key;
+	int whatturn = 0;						//몇번째 턴인지
 	int x = 0, y = 0;
 
 	Piece(*board)[8]; //board 선언
@@ -163,22 +166,22 @@ int startGame()
 				switch (catchPiece.name)
 				{
 				case 'R':
-					success = Rook_move(board, &catchPiece, turn, 'R', &win);
+					success = Rook_move(board, &catchPiece, turn, 'R', &win, whatturn, Gibo);
 					break;
 				case 'B':
-					success = Bishop_move(board, &catchPiece, turn, 'B', &win);
+					success = Bishop_move(board, &catchPiece, turn, 'B', &win, whatturn, Gibo);
 					break;
 				case 'N':
-					success = Knight_move(board, &catchPiece, turn, &win);
+					success = Knight_move(board, &catchPiece, turn, &win, whatturn, Gibo);
 					break;
 				case 'P':
-					success = Pawn_move(board, &catchPiece, turn, &win);
+					success = Pawn_move(board, &catchPiece, turn, &win, whatturn, Gibo);
 					break;
 				case 'Q':
-					success = Queen_move(board, &catchPiece, turn, 'Q', &win);
+					success = Queen_move(board, &catchPiece, turn, 'Q', &win, whatturn, Gibo);
 					break;
 				case 'K':
-					success = King_move(board, &catchPiece, turn, &win);
+					success = King_move(board, &catchPiece, turn, &win, whatturn, Gibo);
 					break;
 				}
 				setColor(white, black);
@@ -197,6 +200,7 @@ int startGame()
 			return -1;
 
 		switchTurn(&x, &y, &turn); //turn 전환
+		++whatturn;
 		setColor(white, black);
 	}
 }
@@ -215,7 +219,7 @@ void switchTurn(int* x, int* y, int* turn)
 	gotoxy(*x, *y); //위치 복구
 }
 
-void promotion(Piece(*board)[8], Piece catchPiece2)
+void promotion(Piece(*board)[8], Piece catchPiece2, char (*Gibo)[7], int whatturn)
 {
 	int y_pos = catchPiece2.pos[0];
 	int x_pos = catchPiece2.pos[1];
@@ -260,6 +264,10 @@ void promotion(Piece(*board)[8], Piece catchPiece2)
 		case SUBMIT:
 			board[y_pos][x_pos].name = promote_option[x];
 
+			Gibo[whatturn][6] = promote_option[x];
+			gotoxy(25, 2 + whatturn);
+			printf("%c", promote_option[x]);
+
 			gotoxy(0, 11);
 			for (int i = 0; i < 5; i++)
 			{
@@ -273,5 +281,5 @@ void promotion(Piece(*board)[8], Piece catchPiece2)
 }
 
 void writeNotation(int x, int y) {
-
+	
 }
