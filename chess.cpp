@@ -98,7 +98,7 @@ void infoDraw() {
 	printf("		 [ 조작법 ]\n\n");
 	printf("		 이동 : 방향 키보드\n");
 	printf("		 선택 : 스페이스바\n\n\n\n\n\n\n");
-	printf("		 개발자 : 김신영, 염승호\n\n");
+	printf("		 개발자 : 김신영, 염승호, 최대현\n\n");
 	printf("    스페이스바를 누르면 메인화면으로 이동합니다.");
 
 	while (1) {
@@ -134,7 +134,6 @@ void boardDraw(Piece(*board)[8])
 
 void userPos(int* x, int* y, Piece(*board)[8], int direction, int color)
 {
-	//int a = board[*x][*y].pos[0], b = board[*x][*y].pos[1];
 	gotoxy(*x, *y);
 	if (direction != -1) {
 		SetPieceColor(board[*y][*x]);
@@ -168,8 +167,9 @@ int startGame(char (*Gibo)[7], int* get_whatturn)
 	board = pieceInit(); //board 초기화
 	boardDraw(board); //board 출력
 
-	//gotoxy(0, 10);
-	//printf("Turn of White");	// 초기 시작자의 색 표시.(이후에 턴 바뀌면서 알아서 사라짐)
+	gotoxy(18, 1);
+	printf("**기보**");
+
 	switchTurn(&x, &y, &turn);
 
 	userPos(&x, &y, board, -1, white); //초기 userpos(0,0)
@@ -272,10 +272,9 @@ void switchTurn(int* x, int* y, int* turn)
 	gotoxy(0, 10);
 	setColor(white, black);
 	if (*turn == 1)
-	{
-		printf("Turn of White");
-	}
-	else printf("Turn of Black");
+		printf("Turn : White");
+	else 
+		printf("Turn : Black");
 	gotoxy(*x, *y); //위치 복구
 }
 

@@ -38,22 +38,32 @@ int main() {
 		{
 			int win;
 			win = startGame(Gibo, &whatturn);
-			gotoxy(0, 15);
+			gotoxy(0, 10);
 			if (win == 1)
-			{
 				printf("White Team Win!!");
-			}
 			else if (win == -1)
-			{
 				printf("Black Team Win!!");
-			}
 
-			scanf("%c", &savewhere);													// 기보 저장 관련 내용, 저장할 위치정보 받은 후 저장
+			// 기보 저장 관련 내용, 저장할 위치정보 받은 후 저장
+			gotoxy(38, 11);
+			printf("[기보 저장]");
+			setColor(white, black);
+			switch (GiboDraw())
+			{
+			case 0:
+				savewhere = 'A';  break;
+			case 1:
+				savewhere = 'B';  break;
+			case 2:
+				savewhere = 'C';  break;
+			case 3:
+				savewhere = 'D';  break;
+			}	
 
-																										// (****) 미리 텍스트파일 속 정보 가져오기 (****)
+			// (****) 미리 텍스트파일 속 정보 가져오기 (****)
 
 			push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
-			return 0;			//게임시작
+			break;			//게임시작
 
 		}			case 1: infoDraw(); break; //게임 정보
 		case 2: GiboCode = GiboDraw();
@@ -117,10 +127,7 @@ void push_Gibo(char (*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA
 		if (replay_GiboC[i][0] == -1)
 			break;
 		for (int j = 0; j < 7; j++)
-		{
 			fputc((replay_GiboC[i][j]), giboC);
-		}
-		//fputc('\n', giboC);
 	}
 
 	if (savewhere != 'D')
@@ -129,10 +136,7 @@ void push_Gibo(char (*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA
 		if (replay_GiboD[i][0] == -1)
 			break;
 		for (int j = 0; j < 7; j++)
-		{
 			fputc((replay_GiboD[i][j]), giboD);
-		}
-		//fputc('\n', giboD);
 	}
 
 	switch (savewhere)
@@ -142,9 +146,7 @@ void push_Gibo(char (*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA
 		for (int i = 0; i < (whatturn+1); i++)
 		{
 			for (int j = 0; j < 7; j++)
-			{
 				fputc((Gibo[i][j]), giboA);
-			}
 			fputc('\n', giboA);
 		}
 
@@ -154,9 +156,7 @@ void push_Gibo(char (*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA
 		for (int i = 0; i < (whatturn+1); i++)
 		{
 			for (int j = 0; j < 7; j++)
-			{
 				fputc((Gibo[i][j]), giboB);
-			}
 			fputc('\n', giboB);
 		}
 
@@ -166,9 +166,7 @@ void push_Gibo(char (*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA
 		for (int i = 0; i < (whatturn+1); i++)
 		{
 			for (int j = 0; j < 7; j++)
-			{
 				fputc((Gibo[i][j]), giboC);
-			}
 			fputc('\n', giboC);
 		}
 
@@ -178,9 +176,7 @@ void push_Gibo(char (*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA
 		for (int i = 0; i < (whatturn+1); i++)
 		{
 			for (int j = 0; j < 7; j++)
-			{
 				fputc((Gibo[i][j]), giboD);
-			}
 			fputc('\n', giboD);
 		}
 		break;
@@ -396,96 +392,3 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 		return 0;							// 리플레이 자동 종료
 	}
 }
-/*
-int ReplayGame(Piece(*board)[7], int whatturn, char(*got_Gibo)[7])
-{
-	int x = 0;
-	int y = 0;
-	int turn = 1;
-	int key;
-
-	if (whatturn % 2 == 0)											// whatturn이 0일 때 -1팀
-		turn = -1;
-
-	while (1)
-	{
-		int win = 0;
-		int success = 0;
-		//setColor(black, lightgray);
-		key = keyControl();
-		switch (key)
-		{
-		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, white);
-			}
-			break;
-		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, white);
-			}break;
-		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, white);
-			}
-			break;
-		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, white);
-			}
-			break;
-		case SUBMIT:
-			catchPiece = board[y][x];
-			if (turn == catchPiece.exist) //player에 맞는 색상의 기물 선택
-			{
-				switch (catchPiece.name)
-				{
-				case 'R':
-					success = Rook_move(board, &catchPiece, turn, 'R', &win, whatturn, Gibo);
-					break;
-				case 'B':
-					success = Bishop_move(board, &catchPiece, turn, 'B', &win, whatturn, Gibo);
-					break;
-				case 'N':
-					success = Knight_move(board, &catchPiece, turn, &win, whatturn, Gibo);
-					break;
-				case 'P':
-					success = Pawn_move(board, &catchPiece, turn, &win, whatturn, Gibo);
-					break;
-				case 'Q':
-					success = Queen_move(board, &catchPiece, turn, 'Q', &win, whatturn, Gibo);
-					break;
-				case 'K':
-					success = King_move(board, &catchPiece, turn, &win, whatturn, Gibo);
-					break;
-				}
-				setColor(white, black);
-				break;
-			}
-			else continue;				//player에 맞는 색상의 기물 선택 못할경우 다시 처음으로 돌아가기
-		}
-		if (success != 1)			//기물 움직임 구현에 성공하지 못할경우 다시 처음으로 돌아가기
-			continue;
-
-		en_passant_reset(board, turn);
-
-		if (win == 1)
-		{
-			*get_whatturn = whatturn;
-			return 1;
-		}
-		else if (win == -1)
-		{
-			*get_whatturn = whatturn;
-			return -1;
-		}
-		switchTurn(&x, &y, &turn); //turn 전환
-		++whatturn;
-		setColor(white, black);
-	}
-}
-*/
