@@ -1,9 +1,0 @@
-﻿  main.cpp
-C:\dev\chess\main.cpp(12,9): warning C4566: 유니버설 문자 이름 '\u2656'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
-  코드를 생성하고 있습니다.
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-C:\dev\chess\piece.cpp(65): warning C4172: 지역 변수 또는 임시: pieces의 주소를 반환하고 있습니다.
-C:\dev\chess\chess.cpp(59): warning C4715: 'keyControl': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  All 86 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  코드를 생성했습니다.
-  chess.vcxproj -> C:\dev\chess\Release\chess.exe
