@@ -261,22 +261,27 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 				printf("%c", board[y1][3].name);
 			}
 		}
-		n = keyControl();
-		switch (n)
-		{
-		case RIGHT:
-			++(*whatturn);
-			break;
-		case SUBMIT:
-			printf("@");
-			break;
-		
+
+		while(true){
+			int n = keyControl();
+
+			if (n == RIGHT || n == SUBMIT){
+				switch (n)
+				{
+					case RIGHT:
+						++(*whatturn);
+						break;
+					case SUBMIT:
+						printf("@");
+						break;
+				}
+				break;
+			}
 		}
 
 
 		if (board[y2][x2].name == 'K') {
 			setColor(white, black);
-			gotoxy(24, 24);
 			printf("스페이스바를 누르면 메뉴화면으로 돌아갑니다");
 
 			while (true) {
@@ -285,4 +290,5 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 			}
 		}
 	}
+	return 0;
 }
