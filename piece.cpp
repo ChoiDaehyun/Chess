@@ -1,8 +1,12 @@
 #include "piece.h"
 
-Piece (*pieceInit())[8]
+Piece** pieceInit()
 {
-	Piece pieces[8][8];
+	//동적할당으로 변경
+	Piece **pieces = (Piece**)malloc(sizeof(Piece*)*8);
+	for (int i = 0; i < 8; i++)
+		pieces[i] = (Piece*)malloc(sizeof(Piece) * 8);
+
 	Piece piece;
 	int i,j ;
 	for (i = 0; i < 8; i++)
@@ -48,7 +52,6 @@ Piece (*pieceInit())[8]
 	piece.exist = 1;
 	pieces[7][4] = piece;
 
-	
 	//Pawn
 	piece.name = 'P';
 	piece.exist = -1;
@@ -74,7 +77,7 @@ Piece (*pieceInit())[8]
 void SetPieceColor(Piece piece)
 {
 	int x = piece.pos[0], y = piece.pos[1];
-	int forground, background;
+	int forground;
 	if (piece.exist == 1) //백
 		forground = white;
 	else //if (piece.exist == -1) //흑
@@ -84,7 +87,7 @@ void SetPieceColor(Piece piece)
 	else setColor(forground, brown);
 }
 
-void en_passant_reset(Piece(*board)[8], int turn)
+void en_passant_reset(Piece** board, int turn)
 {
 	for (int i = 0; i < 7; i++)
 	{
@@ -96,7 +99,7 @@ void en_passant_reset(Piece(*board)[8], int turn)
 }
 
 
-int Rook_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
+int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -104,42 +107,23 @@ int Rook_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* win
 	int y = catchPiece->pos[0];
 	while (1)
 	{
-		//setColor(black, lightgray);
 
 		int key = keyControl();
 		switch (key)
 		{
 		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, lightblue);
-			}
-			break;
+			if (y > 0) userPos(&x, &y, board, UP, lightblue); break;
 		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, lightblue);
-			}break;
+			if (y < 7) userPos(&x, &y, board, DOWN, lightblue); break;
 		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, lightblue);
-			}
-			break;
+			if (x > 0) userPos(&x, &y, board, LEFT, lightblue); break;
 		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, lightblue);
-			}
-			break;
+			if (x < 7) userPos(&x, &y, board, RIGHT, lightblue); break;
 		case SUBMIT:
 			Piece catchPiece2 = board[y][x];
 			int whatname = catchPiece2.name;
 			if ((y == catchPiece->pos[0]) && (x == catchPiece->pos[1]))				// 제자리를 선택했다면
-			{
-				printf("safasdfasfsdfsadsd");
 				return 0;												// 움직이지 않겠다는 의미로 받아들이고, 0 리턴.(= 움직임 구현 실패했다)
-			}
 			else if (((y == catchPiece->pos[0]) || (x == catchPiece->pos[1])) && (catchPiece2.exist != turn))	//선택한 곳이 세로줄, 가로줄 상에 존재하고 같은종류의 말이 아닐 경우
 			{
 				int success = 0;
@@ -158,27 +142,23 @@ int Rook_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* win
 }
 
 
-void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char(*Gibo)[7])
+void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char(*Gibo)[7])
 {
 
-	if (catchPiece.pos[0] > searching_Piece->pos[0])								// 처음 위치 y값이 더 클때
+	if (catchPiece.pos[0] > searching_Piece->pos[0])	// 처음 위치 y값이 더 클때
 	{
 
 		if ((searching_Piece->exist != 0))
 		{
-			if (!((searching_Piece->pos[0] == catchPiece_2.pos[0]) && (searching_Piece->pos[1] == catchPiece_2.pos[1])))
-			{
-				return;
-			}
+			if (!((searching_Piece->pos[0] == catchPiece_2.pos[0]) && (searching_Piece->pos[1] == catchPiece_2.pos[1]))) 
+				return; 
 			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1])], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
-		else
-		{
-			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1])], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
+		else 
+			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1])], catchPiece_2, p_success, name, whatturn, Gibo); 
 
 	}
-	else if (catchPiece.pos[0] < searching_Piece->pos[0])						// 처음 위치 y값이 더 작을때
+	else if (catchPiece.pos[0] < searching_Piece->pos[0])	// 처음 위치 y값이 더 작을때
 	{
 		if (searching_Piece->exist != 0)
 		{
@@ -186,12 +166,10 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 				return;
 			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1])], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
-		else
-		{
-			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1])], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
+		else 
+			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1])], catchPiece_2, p_success, name, whatturn, Gibo); 
 	}
-	else if (catchPiece.pos[1] > searching_Piece->pos[1])						// 처음 위치 x값이 더 클때
+	else if (catchPiece.pos[1] > searching_Piece->pos[1])	// 처음 위치 x값이 더 클때
 	{
 		if (searching_Piece->exist != 0)
 		{
@@ -199,13 +177,10 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 				return;
 			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0])][(searching_Piece->pos[1] + 1)], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
-		else
-		{
-
-			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0])][(searching_Piece->pos[1] + 1)], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
+		else 
+			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0])][(searching_Piece->pos[1] + 1)], catchPiece_2, p_success, name, whatturn, Gibo); 
 	}
-	else if (catchPiece.pos[1] < searching_Piece->pos[1])						// 처음 위치 x값이 더 작을때
+	else if (catchPiece.pos[1] < searching_Piece->pos[1])	// 처음 위치 x값이 더 작을때
 	{
 		if (searching_Piece->exist != 0)
 		{
@@ -213,10 +188,8 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 				return;
 			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0])][(searching_Piece->pos[1] - 1)], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
-		else
-		{
+		else 
 			recurse_Rook(board, catchPiece, &board[(searching_Piece->pos[0])][(searching_Piece->pos[1] - 1)], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
 	}
 	else if ((catchPiece.pos[1] == searching_Piece->pos[1]) && catchPiece.pos[0] == searching_Piece->pos[0])
 	{
@@ -225,14 +198,14 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 		int x2 = catchPiece.pos[1];
 		int y2 = catchPiece.pos[0];
 
-		board[y][x] = { name, {y,x}, catchPiece.exist, 0 };											// 처음 위치 구조체를 이동할 위치에 대입.
+		board[y][x] = { name, {y,x}, catchPiece.exist, 0 };		// 처음 위치 구조체를 이동할 위치에 대입.
 		gotoxy(x, y);
 		printf("%c", catchPiece.name);
 
-		board[y2][x2] = { '-', {y2, x2}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
+		board[y2][x2] = { '-', {y2, x2}, 0 };		// 처음 위치 구조체 값들을 전부 초기화.
 		gotoxy(x2, y2);
 		printf("%c", board[y2][x2].name);
-		*p_success = 1;														// success 값을 1로 바꾸기(= 성공)
+		*p_success = 1;		                       // success 값을 1로 바꾸기(= 성공)
 
 		printGibofor_txtf(Gibo, whatturn, 'A', catchPiece.name, x2, y2, x, y, ' ');
 		printGibofor_console(whatturn, catchPiece.name, x2, y2, x, y, ' ');
@@ -242,51 +215,34 @@ void recurse_Rook(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Pi
 
 
 
-int Bishop_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
+int Bishop_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])	// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
-	gotoxy(0, 13);
+	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
 	{
-		//setColor(black, lightgray);
 
 		int key = keyControl();
 		switch (key)
 		{
 		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, lightblue);
-			}
-			break;
+			if (y > 0) userPos(&x, &y, board, UP, lightblue); break;
 		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, lightblue);
-			}break;
+			if (y < 7) userPos(&x, &y, board, DOWN, lightblue); break;
 		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, lightblue);
-			}
-			break;
+			if (x > 0) userPos(&x, &y, board, LEFT, lightblue); break;
 		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, lightblue);
-			}
-			break;
+			if (x < 7) userPos(&x, &y, board, RIGHT, lightblue); break;
 		case SUBMIT:
 			Piece catchPiece2 = board[y][x];
 			int whatname = catchPiece2.name;
-			if ((catchPiece->pos[0] == catchPiece2.pos[0]) && (catchPiece->pos[1] == catchPiece2.pos[1]))				// 제자리를 선택했다면
-			{
-				return 0;												// 움직이지 않겠다는 의미로 받아들이고, 0 리턴.(= 움직임 구현 실패했다)
-			}
+			if ((catchPiece->pos[0] == catchPiece2.pos[0]) && (catchPiece->pos[1] == catchPiece2.pos[1]))	// 제자리를 선택했다면
+				return 0;	// 움직이지 않겠다는 의미로 받아들이고, 0 리턴.(= 움직임 구현 실패했다)
 
-			else if (((((catchPiece2.pos[1] + catchPiece2.pos[0]) == (catchPiece->pos[1] + catchPiece->pos[0]))) || ((catchPiece->pos[0] - catchPiece->pos[1]) == (catchPiece2.pos[0] - catchPiece2.pos[1]))) && (catchPiece2.exist != turn))
+			else if (((((catchPiece2.pos[1] + catchPiece2.pos[0]) == (catchPiece->pos[1] + catchPiece->pos[0]))) || 
+					   ((catchPiece->pos[0] - catchPiece->pos[1]) == (catchPiece2.pos[0] - catchPiece2.pos[1]))) && (catchPiece2.exist != turn))
 				//선택한 곳이 대각선 상에 존재하고 같은종류의 말이 아닐 경우
 			{
 				int success = 0;
@@ -303,24 +259,20 @@ int Bishop_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* w
 	}
 }
 
-void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char(*Gibo)[7])
+void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char(*Gibo)[7])
 {
 
-	if ((catchPiece.pos[0] > searching_Piece->pos[0]) && (catchPiece.pos[1] > searching_Piece->pos[1]))								// 처음 위치 y값 > 이동결정 위치 y값 , 처음 위치 x값 > 이동결정 위치 x값
+	if ((catchPiece.pos[0] > searching_Piece->pos[0]) && (catchPiece.pos[1] > searching_Piece->pos[1]))	// 처음 위치 y값 > 이동결정 위치 y값 , 처음 위치 x값 > 이동결정 위치 x값
 	{
 
 		if ((searching_Piece->exist != 0))
 		{
-			if (!((searching_Piece->pos[0] == catchPiece_2.pos[0]) && (searching_Piece->pos[1] == catchPiece_2.pos[1])))
-			{
-				return;
-			}
+			if (!((searching_Piece->pos[0] == catchPiece_2.pos[0]) && (searching_Piece->pos[1] == catchPiece_2.pos[1]))) 
+				return; 
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1]) + 1], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
-		else
-		{
+		else 
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1]) + 1], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
 
 	}
 	else if ((catchPiece.pos[0] > searching_Piece->pos[0]) && (catchPiece.pos[1] < searching_Piece->pos[1]))						// 처음 위치 y값 > 이동결정 위치 y값 , 처음 위치 x값 < 이동결정 위치 x값
@@ -332,9 +284,7 @@ void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, 
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1]) - 1], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
 		else
-		{
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) + 1][(searching_Piece->pos[1]) - 1], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
 	}
 	else if ((catchPiece.pos[0] < searching_Piece->pos[0]) && (catchPiece.pos[1] > searching_Piece->pos[1]))						// 처음 위치 y값 < 이동결정 위치 y값, 처음 위치 x값 > 이동결정 위치 x값
 	{
@@ -345,10 +295,7 @@ void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, 
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1] + 1)], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
 		else
-		{
-
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1] + 1)], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
 	}
 	else if ((catchPiece.pos[0] < searching_Piece->pos[0]) && (catchPiece.pos[1] < searching_Piece->pos[1]))						// 처음 위치 y값 < 이동결정 위치 y값 , 처음 위치 x값 < 이동결정 위치 x값
 	{
@@ -359,9 +306,7 @@ void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, 
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1] - 1)], catchPiece_2, p_success, name, whatturn, Gibo);
 		}
 		else
-		{
 			recurse_Bishop(board, catchPiece, &board[(searching_Piece->pos[0]) - 1][(searching_Piece->pos[1] - 1)], catchPiece_2, p_success, name, whatturn, Gibo);
-		}
 	}
 	else if ((catchPiece.pos[1] == searching_Piece->pos[1]) && catchPiece.pos[0] == searching_Piece->pos[0])
 	{
@@ -386,7 +331,7 @@ void recurse_Bishop(Piece(*board)[8], Piece catchPiece, Piece* searching_Piece, 
 }
 
 
-int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win,int whatturn, char(*Gibo)[7])
+int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whatturn, char(*Gibo)[7])
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -400,28 +345,13 @@ int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win,int what
 		switch (key)
 		{
 		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, lightblue);
-			}
-			break;
+			if (y > 0) userPos(&x, &y, board, UP, lightblue); break;
 		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, lightblue);
-			}break;
+			if (y < 7) userPos(&x, &y, board, DOWN, lightblue); break;
 		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, lightblue);
-			}
-			break;
+			if (x > 0) userPos(&x, &y, board, LEFT, lightblue); break;
 		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, lightblue);
-			}
-			break;
+			if (x < 7) userPos(&x, &y, board, RIGHT, lightblue); break;
 		case SUBMIT:
 			Piece catchPiece2 = board[y][x];
 			int whatname = catchPiece2.name;
@@ -438,9 +368,7 @@ int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win,int what
 				)
 			{
 				if (catchPiece2.exist == turn)
-				{
 					return 0;
-				}
 				{
 					board[y2][x2] = { 'N', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
 					gotoxy(x2, y2);
@@ -450,9 +378,7 @@ int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win,int what
 					gotoxy(x1, y1);
 					printf("%c", board[y2][x2].name);
 					if (whatname == 'K')
-					{
 						*win = turn;
-					}
 
 					printGibofor_txtf(Gibo, whatturn, 'A', 'N', x1, y1, x2, y2, ' ');
 					printGibofor_console(whatturn, 'N', x1, y1, x2, y2, ' ');
@@ -468,7 +394,7 @@ int Knight_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win,int what
 }
 
 
-int Queen_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
+int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -482,35 +408,18 @@ int Queen_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* wi
 		switch (key)
 		{
 		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, lightblue);
-			}
-			break;
+			if (y > 0) userPos(&x, &y, board, UP, lightblue); break;
 		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, lightblue);
-			}break;
+			if (y < 7) userPos(&x, &y, board, DOWN, lightblue); break;
 		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, lightblue);
-			}
-			break;
+			if (x > 0) userPos(&x, &y, board, LEFT, lightblue); break;
 		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, lightblue);
-			}
-			break;
+			if (x < 7) userPos(&x, &y, board, RIGHT, lightblue); break;
 		case SUBMIT:
 			Piece catchPiece2 = board[y][x];
 			int whatname = catchPiece2.name;
-			if ((catchPiece->pos[0] == catchPiece2.pos[0]) && (catchPiece->pos[1] == catchPiece2.pos[1]))				// 제자리를 선택했다면
-			{
-				return 0;												// 움직이지 않겠다는 의미로 받아들이고, 0 리턴.(= 움직임 구현 실패했다)
-			}
+			if ((catchPiece->pos[0] == catchPiece2.pos[0]) && (catchPiece->pos[1] == catchPiece2.pos[1]))				// 제자리를 선택했다면 
+				return 0;	 
 			else if (((catchPiece->pos[0] == catchPiece2.pos[0]) || (catchPiece->pos[1] == catchPiece2.pos[1])) && (catchPiece2.exist != turn))	//선택한 곳이 세로줄, 가로줄 상에 존재하고 같은종류의 말이 아닐 경우
 			{
 				int success = 0;
@@ -539,7 +448,7 @@ int Queen_move(Piece(*board)[8], Piece* catchPiece, int turn, char name, int* wi
 
 
 
-int King_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win, int whatturn, char(*Gibo)[7])
+int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char(*Gibo)[7])
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -747,7 +656,7 @@ int King_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win, int whatt
 
 }
 
-int Pawn_move(Piece(*board)[8], Piece* catchPiece, int turn, int* win, int whatturn, char (*Gibo)[7])
+int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char (*Gibo)[7])
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);

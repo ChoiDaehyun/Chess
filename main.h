@@ -27,11 +27,3 @@
 #include <conio.h>
 
 #endif // !__CONIO_H__
-
-#ifndef __GiboAddress__
-#define __GiboAddress__
-#define addressA "./chessmemo/A.txt"
-#define addressB "./chessmemo/B.txt"
-#define addressC "./chessmemo/C.txt"
-#define addressD "./chessmemo/D.txt"
-#endif // !__GiboAddress__
