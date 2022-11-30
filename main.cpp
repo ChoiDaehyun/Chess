@@ -44,7 +44,9 @@ int main() {
 			gotoxy(38, 11);
 			printf("[기보 저장]");
 			setColor(white, black);
-			switch (GiboDraw())
+
+			GiboCode = GiboDraw();
+			switch (GiboCode)
 			{
 			case 0:
 				savewhere = 'A';  break;
@@ -57,8 +59,8 @@ int main() {
 			}	
 
 			// (****) 미리 텍스트파일 속 정보 가져오기 (****)
-
-			push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
+			if(GiboCode != 4)
+				push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
 			break;	//메뉴 화면으로
 
 		}			

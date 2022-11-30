@@ -59,6 +59,8 @@ int GiboDraw() {
 	printf("C");
 	gotoxy(x, y + 3);
 	printf("D");
+	gotoxy(x, y + 4);
+	printf("¿˙¿ÂX");
 	while (1) {
 		int n = keyControl();
 		switch (n) {
@@ -71,7 +73,7 @@ int GiboDraw() {
 			};
 			break;
 		case DOWN:
-			if (y < 15) {
+			if (y < 16) {
 				gotoxy(x - 2, y);
 				printf(" ");
 				gotoxy(x - 2, ++y);
