@@ -95,17 +95,48 @@ int GiboDraw() {
 
 
 void infoDraw() {
-	system("cls");
-	printf("\n\n");
-	printf("		 [ 조작법 ]\n\n");
-	printf("		 이동 : 방향 키보드\n");
-	printf("		 선택 : 스페이스바\n\n\n\n\n\n\n");
-	printf("		 개발자 : 김신영, 염승호, 최대현\n\n");
-	printf("    스페이스바를 누르면 메인화면으로 이동합니다.");
+	int keyCode;
 
-	while (1) {
-		if (keyControl() == SUBMIT) {
-			break;
+	while (true) {
+		system("cls");
+		printf("\n");
+		printf("		     [ 조작법 ]\n\n");
+		printf("		 이동 : 방향 키보드\n");
+		printf("		 선택 : 스페이스바\n\n\n\n");
+		printf("		    [ 기보 복기 ]\n\n");
+		printf("            → 방향키 : 단계적 복기\n");
+		printf("           스페이스바 : 해당 상황에서 리플레이\n\n\n\n\n");
+		setColor(blue, black);
+		printf("	    <개발자 : 김신영, 염승호, 최대현>\n\n\n");
+		setColor(white, black);
+		printf("메인화면 : 스페이스바                     [특수규칙] → ");
+
+		while (1) {
+			keyCode = keyControl();
+			if (keyCode == SUBMIT) {
+				return;
+			}
+			else if (keyCode == RIGHT) {
+				system("cls");
+				printf("\n");
+				printf("		     [ 특수규칙 ]\n\n");
+				printf("                      **앙파상**\n");
+				printf("   상대 폰이 두 칸 이동한 경우 아군의 폰이\n");
+				printf("   상대 폰 뒤로 움직이며 해당 폰을 잡을 수 있습니다\n\n");
+				printf("                      **캐슬링**\n");
+				printf("   킹과 특정 룩이 한 번도 움직이지 않으면서 두 기물사이\n");
+				printf("   다른 기물이 존재하지 않을 경우, 킹은 특수한 움직임이 가능합니다\n\n");
+				printf("                      **프로모션**\n");
+				printf("   폰이 체스판 끝까지 이동하면 킹을 제외한 기물들 중\n");
+				printf("   하나로 변경할 수 있습니다\n");
+				printf("   (방향키와 스페이스바를 통해 지정 가능)\n\n\n");
+				printf("←[조작법]                      메인화면 : 스페이스바 ");
+
+				keyCode = keyControl();
+				if (keyCode == SUBMIT) return;
+				else if (keyCode == LEFT) break;
+				else continue;
+			}
 		}
 	}
 }
