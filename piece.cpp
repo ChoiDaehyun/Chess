@@ -118,9 +118,9 @@ void pieceDraw(Piece** board, int x, int y) {
 
 void printPosition(int x, int y)
 {
-	gotoxy(0, 8);
+	gotoxy(0, 9);
 	setColor(white, black);
-	printf("position : %d,%d", x, y);
+	printf("To : %d,%d", x, y);
 }
 
 
@@ -128,7 +128,7 @@ void printPosition(int x, int y)
 int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                            ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -248,7 +248,7 @@ void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece
 int Bishop_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])	// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                            ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -368,7 +368,7 @@ void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Pie
 int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whatturn, char (*Gibo)[7])
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                            ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -431,7 +431,7 @@ int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whattur
 int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                            ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -489,7 +489,7 @@ int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, 
 int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char (*Gibo)[7])
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                            ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -697,7 +697,7 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char  (*Gibo)[7])
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                            ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
