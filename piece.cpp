@@ -548,10 +548,10 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 					if ((board[7][0].castling && catchPiece->castling))
 					{
-						board[y1][x1] = { '-', {y1, x1}, 0 };
-						board[7][0] = { '-', {7, 0}, 0 };
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[7][3] = { 'R', {7, 3}, catchPiece->exist, 0 };
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[7][0] = { '-', {7, 0}, 0 };
 
 						//gotoxy(x2, y2);													//name 변환
 						//setColor(white, brown);
@@ -566,8 +566,13 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						//setColor(white, green);
 						//printf("%c", board[7][3].name);
 
+
+
 						pieceDraw(board, x1, y1);
 						pieceDraw(board, x2, y2);
+						pieceDraw(board, 3, 7);
+						pieceDraw(board, 0, 7);
+
 						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
@@ -583,10 +588,11 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 					if ((board[0][0].castling && catchPiece->castling))
 					{
-						board[y1][x1] = { '-', {y1, x1}, 0 };
-						board[0][0] = { '-', {0, 0}, 0 };
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[0][3] = { 'R', {0, 3}, catchPiece->exist, 0 };
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[0][0] = { '-', {0, 0}, 0 };
+
 
 						//gotoxy(x2, y2);													//name 변환
 						//setColor(black, green);
@@ -602,6 +608,9 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 						pieceDraw(board, x1, y1);
 						pieceDraw(board, x2, y2);
+						pieceDraw(board, 0, 0);
+						pieceDraw(board, 3, 0);
+
 						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
@@ -621,10 +630,10 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 					if ((board[7][7].castling && catchPiece->castling))
 					{
-						board[y1][x1] = { '-', {y1, x1}, 0 };
-						board[7][7] = { '-', {7, 7}, 0 };
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[7][5] = { 'R', {7, 5}, catchPiece->exist, 0 };
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[7][7] = { '-', {7, 7}, 0 };
 
 						//gotoxy(x2, y2);													//name 변환
 						//setColor(white, brown);
@@ -640,6 +649,9 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 						pieceDraw(board, x1, y1);
 						pieceDraw(board, x2, y2);
+						pieceDraw(board, 7, 7);
+						pieceDraw(board, 5, 7);
+
 						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
@@ -655,10 +667,10 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 					if ((board[0][7].castling && catchPiece->castling))
 					{
-						board[y1][x1] = { '-', {y1, x1}, 0 };
-						board[0][7] = { '-', {7, 0}, 0 };
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
-						board[0][5] = { 'R', {5, 0}, catchPiece->exist, 0 };
+						board[0][5] = { 'R', {0, 5}, catchPiece->exist, 0 };
+						board[y1][x1] = { '-', {y1, x1}, 0 };
+						board[0][7] = { '-', {0, 7}, 0 };
 
 						//gotoxy(x2, y2);													//name 변환
 						//setColor(black, green);
@@ -675,6 +687,9 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 						pieceDraw(board, x1, y1);
 						pieceDraw(board, x2, y2);
+						pieceDraw(board, 5, 0);
+						pieceDraw(board, 7, 0);
+
 						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
@@ -743,7 +758,10 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
 
 						if (catchPiece2.pos[0] == 0)											// 프로모션
+						{
+							Gibo[whatturn][0] = 'B';
 							promotion(board, catchPiece2, Gibo, whatturn);
+						}
 
 						return 1;
 					}
@@ -793,13 +811,17 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 						pieceDraw(board, x1, y1);
 						pieceDraw(board, x2, y2);
+						pieceDraw(board, x2, y1);
 						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
 
 						if (catchPiece2.pos[0] == 0)											// 프로모션
+						{
+							Gibo[whatturn][0] = 'B';
 							promotion(board, catchPiece2, Gibo, whatturn);
+						}
 						return 1;
 					}
 
@@ -821,8 +843,10 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						if (whatname == 'K')
 							*win = turn;
 						else if (catchPiece2.pos[0] == 0)										// 프로모션
+						{
+							Gibo[whatturn][0] = 'B';
 							promotion(board, catchPiece2, Gibo, whatturn);
-
+						}
 						return 1;
 					}
 					else return 0;
@@ -848,7 +872,10 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
 
 						if (catchPiece2.pos[0] == 7)											//프로모션
+						{
+							Gibo[whatturn][0] = 'B';
 							promotion(board, catchPiece2, Gibo, whatturn);
+						}
 
 						return 1;
 					}
@@ -898,6 +925,7 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 						pieceDraw(board, x1, y1);
 						pieceDraw(board, x2, y2);
+						pieceDraw(board, x2, y1);
 						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
@@ -920,7 +948,11 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						if (whatname == 'K')
 							*win = turn;
 						else if (catchPiece2.pos[0] == 7)													//프로모션
+						{
+							Gibo[whatturn][0] = 'B';
 							promotion(board, catchPiece2, Gibo, whatturn);
+						}
+
 						return 1;
 					}
 				}
@@ -949,7 +981,7 @@ void printGibofor_txtf(char  (*Gibo)[7], int whatturn, char type, char moved_thi
 
 void printGibofor_console(int whatturn, char moved_thing, int x1, int y1, int x2, int y2, char changed)
 {
-	gotoxy(20, 2 + whatturn);
+	gotoxy(20+(whatturn/15)*10, 2 + (whatturn%15));
 	printf("%c", moved_thing);
 	printf("%c", ('a' + x1));
 	printf("%d", (8 - y1));

@@ -211,6 +211,7 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 		if (*whatturn % 2 == 0)					// 턴 구현
 			turn = -1;
 
+		//printf("%d", board[2][2].en_passant);
 		en_passant_reset(board, turn);
 
 
@@ -307,7 +308,8 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 		if (get_name == 'K')
 		{
 			setColor(white, black);
-			printf("스페이스바를 누르면 메뉴화면으로 돌아갑니다");
+			gotoxy(0, 8);
+			printf("스페이스바를 누르면 종료됩니다");
 
 			while (true) {
 				if (keyControl() == SUBMIT)
@@ -327,7 +329,7 @@ int restartGame(char (*Gibo)[7], int* get_whatturn, Piece** board1)
 	system("cls");
 	int turn = 1, key;
 	int whatturn = *get_whatturn;						//몇번째 턴인지
-	if (whatturn % 2 == 1)
+	if (whatturn % 2 == 0)
 		turn = -1;
 	int x = 0, y = 0;
 

@@ -343,7 +343,7 @@ void promotion(Piece** board, Piece catchPiece2, char (*Gibo)[7], int whatturn)
 			board[y_pos][x_pos].name = promote_option[x];
 
 			Gibo[whatturn][6] = promote_option[x];
-			gotoxy(25, 2 + whatturn);
+			gotoxy(25 + (whatturn / 15) * 10, 2 + (whatturn % 15));
 			printf("%c", promote_option[x]);
 
 			gotoxy(0, 11);
@@ -352,6 +352,9 @@ void promotion(Piece** board, Piece catchPiece2, char (*Gibo)[7], int whatturn)
 				setColor(white, black);
 				printf(" ");
 			}
+
+			pieceDraw(board, x_pos, y_pos);
+
 			return;
 		}
 	}

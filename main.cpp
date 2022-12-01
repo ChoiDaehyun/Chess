@@ -61,7 +61,7 @@ int main() {
 			// (****) 미리 텍스트파일 속 정보 가져오기 (****)
 			if(GiboCode != 4)
 				push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
-			break;	//메뉴 화면으로
+			return 0;	//메뉴 화면으로
 
 		}			
 		case 1: infoDraw(); break; //게임 정보
@@ -79,7 +79,7 @@ int main() {
 				break;
 			case 3:
 				txtf_to_chessboard(replay_giboD, &whatturn);
-			} break;
+			} return 0;
 		case 3: return 0; //종료
 		}
 		system("cls");
