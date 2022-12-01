@@ -99,7 +99,7 @@ void en_passant_reset(Piece** board, int turn)
 }
 
 
-int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
+int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -142,7 +142,7 @@ int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, i
 }
 
 
-void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char(*Gibo)[7])
+void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char (*Gibo)[7])
 {
 
 	if (catchPiece.pos[0] > searching_Piece->pos[0])	// 처음 위치 y값이 더 클때
@@ -215,7 +215,7 @@ void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece
 
 
 
-int Bishop_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])	// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
+int Bishop_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])	// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -259,7 +259,7 @@ int Bishop_move(Piece** board, Piece* catchPiece, int turn, char name, int* win,
 	}
 }
 
-void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char(*Gibo)[7])
+void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece catchPiece_2, int* p_success, char name, int whatturn, char (*Gibo)[7])
 {
 
 	if ((catchPiece.pos[0] > searching_Piece->pos[0]) && (catchPiece.pos[1] > searching_Piece->pos[1]))	// 처음 위치 y값 > 이동결정 위치 y값 , 처음 위치 x값 > 이동결정 위치 x값
@@ -331,7 +331,7 @@ void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Pie
 }
 
 
-int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whatturn, char(*Gibo)[7])
+int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whatturn, char (*Gibo)[7])
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -394,7 +394,7 @@ int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whattur
 }
 
 
-int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
+int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -452,7 +452,7 @@ int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, 
 
 
 
-int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char(*Gibo)[7])
+int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char (*Gibo)[7])
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -660,7 +660,7 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 }
 
-int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char (*Gibo)[7])
+int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char  (*Gibo)[7])
 {
 	gotoxy(0, 9); setColor(white, black);
 	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
@@ -912,7 +912,7 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 
 
-void printGibofor_txtf(char (*Gibo)[7], int whatturn, char type, char moved_thing, int x1, int y1, int x2, int y2, char changed)
+void printGibofor_txtf(char  (*Gibo)[7], int whatturn, char type, char moved_thing, int x1, int y1, int x2, int y2, char changed)
 {
 	Gibo[whatturn][0] = type;
 	Gibo[whatturn][1] = moved_thing;

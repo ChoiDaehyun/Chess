@@ -189,7 +189,6 @@ void userPos(int* x, int* y, Piece **board, int direction, int color)
 int startGame(char (*Gibo)[7], int* get_whatturn)
 {
 
-
 	system("cls");
 	int turn = 1, key;
 	int whatturn = 0;						//몇번째 턴인지
