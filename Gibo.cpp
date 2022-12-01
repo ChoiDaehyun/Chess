@@ -168,11 +168,6 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 	board = pieceInit(); //board 초기화
 	boardDraw(board); //board 출력
 
-	//char savewhere;
-	//char(*replay_GiboA)[7] = { 0 };
-	//char(*replay_GiboB)[7] = { 0 };
-	//char(*replay_GiboC)[7] = { 0 };
-	//char(*replay_GiboD)[7] = { 0 };
 
 	int turn;
 	int n = 0;
@@ -309,7 +304,7 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 		}
 
 
-		if ((get_name == 'K') && (get_exist == ((-1) * turn)))
+		if (get_name == 'K')
 		{
 			setColor(white, black);
 			printf("스페이스바를 누르면 메뉴화면으로 돌아갑니다");
