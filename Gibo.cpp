@@ -195,6 +195,7 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 			win = restartGame(got_Gibo, whatturn, board);
 
 			gotoxy(0, 15);
+
 			if (win == 1)
 			{
 				printf("Replay Game : White Team Win!!");
@@ -210,9 +211,9 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 		}
 
 
-		turn = -1;
+		turn = 1;
 		if (*whatturn % 2 == 0)					// 턴 구현
-			turn = 1;
+			turn = -1;
 
 		//printf("%d", board[2][2].en_passant);
 		en_passant_reset(board, turn);
@@ -222,9 +223,11 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 		y1 = (got_Gibo[*whatturn][3] - '0');
 		x2 = (got_Gibo[*whatturn][4] - '0');
 		y2 = (got_Gibo[*whatturn][5] - '0');
-		gotoxy(20, 20);															//필요없는것같음
 		changed = got_Gibo[*whatturn][6];
 		get_enpassant = board[y2][x2].en_passant;		// 앙파상값 미리 참조.
+
+
+
 		get_exist = board[y2][x2].exist;
 		get_name = board[y2][x2].name;
 
@@ -250,13 +253,13 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 			if (((y2 - y1) == 2) || ((y2 - y1) == -2))							// 두칸을 이동(전진)하였다면
 			{
 				board[y1 + ((y2 - y1) / 2)][x1].en_passant = turn;				// 후방 한칸쪽에 앙파상값 설정.
-
 			}
 
 			if (get_enpassant != 0)									// 앙파상이었다면					// 여기 해결 안됨.
 			{
 				board[y1][x2] = { '-', {y1, x2}, 0,0,0 };						// 앙파상에 당한(?) 말 제거
 				pieceDraw(board, x2, y1);
+
 
 			}
 		}

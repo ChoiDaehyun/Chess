@@ -1,7 +1,7 @@
-﻿  piece.cpp
+﻿  Gibo.cpp
   코드를 생성하고 있습니다.
-  3 of 36 functions ( 8.3%) were compiled, the rest were copied from previous compilation.
+  2 of 36 functions ( 5.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    5 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
-  chess.vcxproj -> C:\Users\user\Desktop\시녕이\4-2\고급C프로그래밍및설계\chess\x64\Release\chess.exe
+  chess.vcxproj -> C:\Users\82107\Desktop\chessfinal\Chess\x64\Release\chess.exe

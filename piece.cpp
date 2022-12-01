@@ -13,6 +13,7 @@ Piece** pieceInit()
 		for (j = 0; j < 8; j++) {
 			pieces[i][j].name = '-';
 			pieces[i][j].exist = 0;
+			pieces[i][j].en_passant = 0;
 		}
 
 	//Rook
