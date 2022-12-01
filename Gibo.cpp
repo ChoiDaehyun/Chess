@@ -204,12 +204,15 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 				printf("Replay Game : Black Team Win!!");
 			}
 			return 0;
+			break;
+		default:
+			continue;
 		}
 
 
-		turn = 1;
+		turn = -1;
 		if (*whatturn % 2 == 0)					// 턴 구현
-			turn = -1;
+			turn = 1;
 
 		//printf("%d", board[2][2].en_passant);
 		en_passant_reset(board, turn);
@@ -228,31 +231,17 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 
 		board[y2][x2] = { board[y1][x1].name, {y2,x2}, board[y1][x1].exist, 0, 0 };
 		board[y1][x1] = { '-', {y1,x1},0,0,0 };
+		
+		pieceDraw(board, x1, y1);
+		pieceDraw(board, x2, y2);
+		color = white;
 
-
-		gotoxy(x2, y2);
-		if (turn == 1)
-			color = white;
-		else color = black;
-
-		if ((x2 + y2) % 2 == 0) setColor(color, green); //set background color 
-		else setColor(color, brown);
-		printf("%c", board[y2][x2].name);
-
-
-		gotoxy(x1, y1);
-		if ((x1 + y1) % 2 == 0) setColor(black, green); //set background color 
-		else setColor(black, brown);
-		printf("%c", board[y1][x1].name);
 
 
 		if (got_Gibo[*whatturn][0] == 'B')
 		{
-			board[y2][x2] = { changed, {y2,x2}, board[y1][x1].exist, 0, 0 };			// 프로모션
-			gotoxy(x2, y2);
-			if ((x2 + y2) % 2 == 0) setColor(color, green); //set background color 
-			else setColor(color, brown);
-			printf("%c", board[y2][x2].name);
+			board[y2][x2] = { changed, {y2,x2}, board[y2][x2].exist, 0, 0 };			// 프로모션
+			pieceDraw(board, x2, y2);
 		}
 
 
@@ -267,10 +256,7 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 			if (get_enpassant != 0)									// 앙파상이었다면					// 여기 해결 안됨.
 			{
 				board[y1][x2] = { '-', {y1, x2}, 0,0,0 };						// 앙파상에 당한(?) 말 제거
-				gotoxy(x2, y1);
-				if ((x2 + y1) % 2 == 0) setColor(black, green); //set background color 
-				else setColor(black, brown);
-				printf("%c", board[y1][x2].name);
+				pieceDraw(board, x2, y1);
 
 			}
 		}
@@ -280,27 +266,15 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 			{																	// -> 캐슬링
 				board[y1][7] = { '-', {y1,7},0,0,0 };							// 처음 룩 위치 지우고
 				board[y1][5] = { 'R', {y1,5},turn, 0,0 };						// 이동될 위치에 룩 두기
-				gotoxy(7, y1);
-				if ((7 + y1) % 2 == 0) setColor(black, green); //set background color 
-				else setColor(black, brown);
-				printf("%c", board[y1][7].name);
-				gotoxy(5, y1);
-				if ((5 + y1) % 2 == 0) setColor(color, green); //set background color 
-				else setColor(color, brown);
-				printf("%c", board[y1][5].name);
+				pieceDraw(board, 7, y1);
+				pieceDraw(board, 5, y1);
 			}
 			else if ((x2 - x1) == -2)											// 킹이 왼쪽으로 두칸 이동하였다면
 			{																	// -> 마찬가지로 캐슬링
 				board[y1][0] = { '-', {y1,0},0,0,0 };							// 처음 룩 위치 지우고
 				board[y1][3] = { 'R', {y1,3},turn, 0,0 };						// 이동될 위치에 룩 두기
-				gotoxy(0, y1);
-				if ((0 + y1) % 2 == 0) setColor(black, green); //set background color 
-				else setColor(black, brown);
-				printf("%c", board[y1][0].name);
-				gotoxy(3, y1);
-				if ((3 + y1) % 2 == 0) setColor(color, green); //set background color 
-				else setColor(color, brown);
-				printf("%c", board[y1][3].name);
+				pieceDraw(board, 0, y1);
+				pieceDraw(board, 3, y1);
 			}
 		}
 

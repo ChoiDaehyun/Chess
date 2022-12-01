@@ -59,7 +59,6 @@ int main() {
 			}	
 
 			// (****) 미리 텍스트파일 속 정보 가져오기 (****)
-			if(GiboCode != 4)
 				push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
 			return 0;	//메뉴 화면으로
 
@@ -79,7 +78,25 @@ int main() {
 				break;
 			case 3:
 				txtf_to_chessboard(replay_giboD, &whatturn);
-			} return 0;
+			} 
+			
+			gotoxy(38, 11);
+			printf("[기보 저장]");
+			setColor(white, black);
+
+			GiboCode = GiboDraw();
+			switch (GiboCode)
+			{
+			case 0:
+				savewhere = 'A';  break;
+			case 1:
+				savewhere = 'B';  break;
+			case 2:
+				savewhere = 'C';  break;
+			case 3:
+				savewhere = 'D';  break;
+			}
+			return 0;
 		case 3: return 0; //종료
 		}
 		system("cls");
