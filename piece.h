@@ -15,10 +15,12 @@ typedef struct {
 
 
 
-
+//ksy
 Piece** pieceInit(); //기물 초기화
 void SetPieceColor(Piece piece);
 void userPos(int* x, int* y, Piece** board, int direction, int color);
+void pieceDraw(Piece** board, int x, int y);
+void printPosition(int x, int y);
 
 //ysh
 int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char(*Gibo)[7]);

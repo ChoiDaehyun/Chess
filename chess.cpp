@@ -190,12 +190,12 @@ int startGame(char (*Gibo)[7], int* get_whatturn)
 {
 
 	system("cls");
-	int turn = 1, key;
+	int turn = -1, key;
 	int whatturn = 0;						//몇번째 턴인지
 	int x = 0, y = 0;
 
 	Piece** board; //board 선언
-	Piece catchPiece;
+	Piece* catchPiece;
 	board = pieceInit(); //board 초기화
 	boardDraw(board); //board 출력
 
@@ -227,28 +227,28 @@ int startGame(char (*Gibo)[7], int* get_whatturn)
 			if (x < 7)
 			    userPos(&x, &y, board, RIGHT, white); break;
 		case SUBMIT:
-			catchPiece = board[y][x];
-			if (turn == catchPiece.exist) //player에 맞는 색상의 기물 선택
+			catchPiece = &board[y][x];
+			if (turn == catchPiece->exist) //player에 맞는 색상의 기물 선택
 			{
-				switch (catchPiece.name)
+				switch (catchPiece->name)
 				{
 				case 'R':
-					success = Rook_move(board, &catchPiece, turn, 'R', &win, whatturn, Gibo);
+					success = Rook_move(board, catchPiece, turn, 'R', &win, whatturn, Gibo);
 					break;
 				case 'B':
-					success = Bishop_move(board, &catchPiece, turn, 'B', &win, whatturn, Gibo);
+					success = Bishop_move(board, catchPiece, turn, 'B', &win, whatturn, Gibo);
 					break;
 				case 'N':
-					success = Knight_move(board, &catchPiece, turn, &win, whatturn, Gibo);
+					success = Knight_move(board, catchPiece, turn, &win, whatturn, Gibo);
 					break;
 				case 'P':
-					success = Pawn_move(board, &catchPiece, turn, &win, whatturn, Gibo);
+					success = Pawn_move(board, catchPiece, turn, &win, whatturn, Gibo);
 					break;
 				case 'Q':
-					success = Queen_move(board, &catchPiece, turn, 'Q', &win, whatturn, Gibo);
+					success = Queen_move(board, catchPiece, turn, 'Q', &win, whatturn, Gibo);
 					break;
 				case 'K':
-					success = King_move(board, &catchPiece, turn, &win, whatturn, Gibo);
+					success = King_move(board, catchPiece, turn, &win, whatturn, Gibo);
 					break;
 				}
 				setColor(white, black);

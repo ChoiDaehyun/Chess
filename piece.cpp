@@ -98,11 +98,37 @@ void en_passant_reset(Piece** board, int turn)
 	}
 }
 
+/* board의 (x, y)좌표 입력시 해당 위치의 배경 고려하여 name 출력*/
+void pieceDraw(Piece** board, int x, int y) {
+	gotoxy(x, y);
+	int forground, background;
+
+	if ((x + y) % 2 == 0) background = green; //set background color 
+	else background = brown;
+
+	if (board[y][x].exist == 1) //set forground color
+		forground = white;
+	else forground = black;
+
+	setColor(forground, background);
+	printf("%c", board[y][x].name); //출력
+
+	setColor(white, black);
+}
+
+void printPosition(int x, int y)
+{
+	gotoxy(0, 8);
+	setColor(white, black);
+	printf("position : %d,%d", x, y);
+}
+
+
 
 int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
-	gotoxy(0, 9); setColor(white, black);
-	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	gotoxy(0, 8); setColor(white, black);
+	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -199,12 +225,16 @@ void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece
 		int y2 = catchPiece.pos[0];
 
 		board[y][x] = { name, {y,x}, catchPiece.exist, 0 };		// 처음 위치 구조체를 이동할 위치에 대입.
-		gotoxy(x, y);
-		printf("%c", catchPiece.name);
+		//gotoxy(x, y);
+		//printf("%c", catchPiece.name);
 
 		board[y2][x2] = { '-', {y2, x2}, 0 };		// 처음 위치 구조체 값들을 전부 초기화.
-		gotoxy(x2, y2);
-		printf("%c", board[y2][x2].name);
+		//gotoxy(x2, y2);
+		//printf("%c", board[y2][x2].name);
+
+		pieceDraw(board, x, y);
+		pieceDraw(board, x2, y2);
+
 		*p_success = 1;		                       // success 값을 1로 바꾸기(= 성공)
 
 		printGibofor_txtf(Gibo, whatturn, 'A', catchPiece.name, x2, y2, x, y, ' ');
@@ -217,8 +247,8 @@ void recurse_Rook(Piece** board, Piece catchPiece, Piece* searching_Piece, Piece
 
 int Bishop_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])	// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
-	gotoxy(0, 9); setColor(white, black);
-	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	gotoxy(0, 8); setColor(white, black);
+	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -316,12 +346,16 @@ void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Pie
 		int y2 = catchPiece.pos[0];
 
 		board[y][x] = { name, {y,x}, catchPiece.exist };											// 처음 위치 구조체를 이동할 위치에 대입.
-		gotoxy(x, y);
-		printf("%c", catchPiece.name);
+		//gotoxy(x, y);
+		//printf("%c", catchPiece.name);
 
 		board[y2][x2] = { '-', {y2, x2}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-		gotoxy(x2, y2);
-		printf("%c", board[y2][x2].name);
+		//gotoxy(x2, y2);
+		//printf("%c", board[y2][x2].name);
+
+		pieceDraw(board, x, y);
+		pieceDraw(board, x2, y2);
+
 		*p_success = 1;														// success 값을 1로 바꾸기(= 성공)
 
 		printGibofor_txtf(Gibo, whatturn, 'A', catchPiece.name, x2, y2, x, y, ' ');
@@ -333,8 +367,8 @@ void recurse_Bishop(Piece** board, Piece catchPiece, Piece* searching_Piece, Pie
 
 int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whatturn, char (*Gibo)[7])
 {
-	gotoxy(0, 9); setColor(white, black);
-	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	gotoxy(0, 8); setColor(white, black);
+	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -371,12 +405,12 @@ int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whattur
 					return 0;
 				{
 					board[y2][x2] = { 'N', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
-					gotoxy(x2, y2);
-					printf("%c", catchPiece->name);
-
 					board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-					gotoxy(x1, y1);
-					printf("%c", board[y2][x2].name);
+
+					pieceDraw(board, x1, y1);
+					pieceDraw(board, x2, y2);
+					printPosition(x2, y2);
+
 					if (whatname == 'K')
 						*win = turn;
 
@@ -396,8 +430,8 @@ int Knight_move(Piece** board, Piece* catchPiece, int turn, int* win,int whattur
 
 int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
-	gotoxy(0, 9); setColor(white, black);
-	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	gotoxy(0, 8); setColor(white, black);
+	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -454,8 +488,8 @@ int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, 
 
 int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char (*Gibo)[7])
 {
-	gotoxy(0, 9); setColor(white, black);
-	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	gotoxy(0, 8); setColor(white, black);
+	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -466,28 +500,13 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 		switch (key)
 		{
 		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, lightblue);
-			}
-			break;
+			if (y > 0) userPos(&x, &y, board, UP, lightblue); break;
 		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, lightblue);
-			}break;
+			if (y < 7) userPos(&x, &y, board, DOWN, lightblue); break;
 		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, lightblue);
-			}
-			break;
+			if (x > 0) userPos(&x, &y, board, LEFT, lightblue); break;
 		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, lightblue);
-			}
-			break;
+			if (x < 7) userPos(&x, &y, board, RIGHT, lightblue); break;
 		case SUBMIT:
 			Piece catchPiece2 = board[y][x];
 			int whatname = catchPiece2.name;
@@ -498,9 +517,8 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 			// ((x1 + 2 == x2)&&(y1 + 1 == y2))||((x1 + 2 == x2)&&(y1 + 1 == y2))||((x1 + 2 == x2)&&(y1 + 1 == y2))||((x1 + 2 == x2)&&(y1 + 1 == y2))|
 			if ((catchPiece->pos[0] == catchPiece2.pos[0]) && (catchPiece->pos[1] == catchPiece2.pos[1]))				// 제자리를 선택했다면
-			{
 				return 0;												// 움직이지 않겠다는 의미로 받아들이고, 0 리턴.(= 움직임 구현 실패했다)
-			}
+
 			else if (((x1 - 1) <= x2) && (x1 + 1 >= x2) && ((y1 - 1) <= y2) && ((y1 + 1) >= y2))
 			{
 				if (catchPiece2.exist == turn)
@@ -508,12 +526,12 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					return 0;
 				}
 				board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };											// 처음 위치 구조체를 이동할 위치에 대입.
-				gotoxy(x2, y2);
-				printf("%c", catchPiece->name);
-
 				board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-				gotoxy(x1, y1);
-				printf("%c", board[y2][x2].name);
+
+				pieceDraw(board, x1, y1);
+				pieceDraw(board, x2, y2);
+				printPosition(x2, y2);
+
 				if (whatname == 'K')
 					*win = turn;
 
@@ -537,18 +555,22 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[7][3] = { 'R', {7, 3}, catchPiece->exist, 0 };
 
-						gotoxy(x2, y2);													//name 변환
-						setColor(white, brown);
-						printf("%c", catchPiece->name);
-						gotoxy(0, 7);
-						printf("%c", board[7][0].name);
-						gotoxy(x1, y1);
-						printf("%c", board[y1][x1].name);
+						//gotoxy(x2, y2);													//name 변환
+						//setColor(white, brown);
+						//printf("%c", catchPiece->name);
+						//gotoxy(0, 7);
+						//printf("%c", board[7][0].name);
+						//gotoxy(x1, y1);
+						//printf("%c", board[y1][x1].name);
 
 
-						gotoxy(3, 7);
-						setColor(white, green);
-						printf("%c", board[7][3].name);
+						//gotoxy(3, 7);
+						//setColor(white, green);
+						//printf("%c", board[7][3].name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'K', x1, y1, x2, y2, ' ');
@@ -568,17 +590,21 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[0][3] = { 'R', {0, 3}, catchPiece->exist, 0 };
 
-						gotoxy(x2, y2);													//name 변환
-						setColor(black, green);
-						printf("%c", catchPiece->name);
-						gotoxy(0, 0);
-						printf("%c", board[0][0].name);
-						gotoxy(x1, y1);
-						printf("%c", board[y1][x1].name);
+						//gotoxy(x2, y2);													//name 변환
+						//setColor(black, green);
+						//printf("%c", catchPiece->name);
+						//gotoxy(0, 0);
+						//printf("%c", board[0][0].name);
+						//gotoxy(x1, y1);
+						//printf("%c", board[y1][x1].name);
 
-						gotoxy(3, 0);
-						setColor(black, brown);
-						printf("%c", board[0][3].name);
+						//gotoxy(3, 0);
+						//setColor(black, brown);
+						//printf("%c", board[0][3].name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'K', x1, y1, x2, y2, ' ');
@@ -602,17 +628,21 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[7][5] = { 'R', {7, 5}, catchPiece->exist, 0 };
 
-						gotoxy(x2, y2);													//name 변환
-						setColor(white, brown);
-						printf("%c", board[y2][x2].name);
-						gotoxy(x1, y1);
-						printf("%c", board[y1][x1].name);
+						//gotoxy(x2, y2);													//name 변환
+						//setColor(white, brown);
+						//printf("%c", board[y2][x2].name);
+						//gotoxy(x1, y1);
+						//printf("%c", board[y1][x1].name);
 
-						gotoxy(5, 7);
-						setColor(white, green);
-						printf("%c", board[7][5].name);
-						gotoxy(7, 7);
-						printf("%c", board[7][7].name);
+						//gotoxy(5, 7);
+						//setColor(white, green);
+						//printf("%c", board[7][5].name);
+						//gotoxy(7, 7);
+						//printf("%c", board[7][7].name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'K', x1, y1, x2, y2, ' ');
@@ -632,18 +662,22 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						board[y2][x2] = { 'K', {y2,x2}, catchPiece->exist, 0 };
 						board[0][5] = { 'R', {5, 0}, catchPiece->exist, 0 };
 
-						gotoxy(x2, y2);													//name 변환
-						setColor(black, green);
-						printf("%c", board[y2][x2].name);
-						gotoxy(x1, y1);
-						printf("%c", board[y1][x1].name);
+						//gotoxy(x2, y2);													//name 변환
+						//setColor(black, green);
+						//printf("%c", board[y2][x2].name);
+						//gotoxy(x1, y1);
+						//printf("%c", board[y1][x1].name);
 
 
-						gotoxy(7, 0);
-						setColor(black, brown);
-						printf("%c", board[0][7].name);
-						gotoxy(5, 0);
-						printf("%c", board[0][5].name);
+						//gotoxy(7, 0);
+						//setColor(black, brown);
+						//printf("%c", board[0][7].name);
+						//gotoxy(5, 0);
+						//printf("%c", board[0][5].name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'K', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'K', x1, y1, x2, y2, ' ');
@@ -662,8 +696,8 @@ int King_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn, char  (*Gibo)[7])
 {
-	gotoxy(0, 9); setColor(white, black);
-	printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
+	gotoxy(0, 8); setColor(white, black);
+	printf("                       \n");   printf("Grab : %d,%d", catchPiece->pos[0], catchPiece->pos[1]);
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -674,28 +708,13 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 		switch (key)
 		{
 		case UP:
-			if (y > 0)
-			{
-				userPos(&x, &y, board, UP, lightblue);
-			}
-			break;
+			if (y > 0) userPos(&x, &y, board, UP, lightblue); break;
 		case DOWN:
-			if (y < 7)
-			{
-				userPos(&x, &y, board, DOWN, lightblue);
-			}break;
+			if (y < 7) userPos(&x, &y, board, DOWN, lightblue); break;
 		case LEFT:
-			if (x > 0)
-			{
-				userPos(&x, &y, board, LEFT, lightblue);
-			}
-			break;
+			if (x > 0) userPos(&x, &y, board, LEFT, lightblue); break;
 		case RIGHT:
-			if (x < 7)
-			{
-				userPos(&x, &y, board, RIGHT, lightblue);
-			}
-			break;
+			if (x < 7) userPos(&x, &y, board, RIGHT, lightblue); break;
 		case SUBMIT:
 			Piece catchPiece2 = board[y][x];
 			int whatname = catchPiece2.name;
@@ -716,12 +735,11 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					if (board[y1 - 1][x1].exist == 0)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };									// 처음 위치 구조체를 이동할 위치에 대입.
-						gotoxy(x2, y2);
-						printf("%c", catchPiece->name);
-
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x1, y1);
-						printf("%c", catchPiece->name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -743,11 +761,12 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						{
 							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
 							board[y2 + 1][x2].en_passant = 1;							// 앙파상 조건 만들기
-							gotoxy(x2, y2);
-							printf("%c", catchPiece->name);
+
 							board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-							gotoxy(x1, y1);
-							printf("%c", board[y2][x2].name);
+
+							pieceDraw(board, x1, y1);
+							pieceDraw(board, x2, y2);
+							printPosition(x2, y2);
 
 							printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 							printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -763,16 +782,20 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					if (board[y2][x2].en_passant == -1)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
-						gotoxy(x2, y2);
-						printf("%c", catchPiece->name);
+						//gotoxy(x2, y2);
+						//printf("%c", catchPiece->name);
 
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x1, y1);
-						printf("-");
+						//gotoxy(x1, y1);
+						//printf("-");
 
 						board[y2 + 1][x2] = { '-', {y2 + 1, x2}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x2, y2 + 1);
-						printf("-");
+						//gotoxy(x2, y2 + 1);
+						//printf("-");
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -788,12 +811,11 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					if (board[y2][x2].exist == -1)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
-						gotoxy(x2, y2);
-						printf("%c", catchPiece->name);
-
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x1, y1);
-						printf("%c", catchPiece->name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -818,12 +840,11 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					if (board[y1 + 1][x1].exist == 0)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };									// 처음 위치 구조체를 이동할 위치에 대입.
-						gotoxy(x2, y2);
-						printf("%c", catchPiece->name);
-
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x1, y1);
-						printf("%c", catchPiece->name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -844,11 +865,12 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 						{
 							board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
 							board[y2 - 1][x2].en_passant = -1;							// 앙파상 조건 만들기
-							gotoxy(x2, y2);
-							printf("%c", catchPiece->name);
+
 							board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-							gotoxy(x1, y1);
-							printf("%c", board[y2][x2].name);
+
+							pieceDraw(board, x1, y1);
+							pieceDraw(board, x2, y2);
+							printPosition(x2, y2);
 
 							printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 							printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -865,16 +887,20 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					if (board[y2][x2].en_passant == 1)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
-						gotoxy(x2, y2);
-						printf("%c", catchPiece->name);
+						//gotoxy(x2, y2);
+						//printf("%c", catchPiece->name);
 
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x1, y1);
-						printf("%c", catchPiece->name);
+						//gotoxy(x1, y1);
+						//printf("%c", catchPiece->name);
 
 						board[y2 - 1][x2] = { '-', {y2 - 1, x2}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x2, y2 - 1);
-						printf("%c", catchPiece->name);
+						//gotoxy(x2, y2 - 1);
+						//printf("%c", catchPiece->name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
@@ -884,12 +910,11 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 					if (board[y2][x2].exist == 1)
 					{
 						board[y2][x2] = { 'P', {y2,x2}, catchPiece->exist };											// 처음 위치 구조체를 이동할 위치에 대입.
-						gotoxy(x2, y2);
-						printf("%c", catchPiece->name);
-
 						board[y1][x1] = { '-', {y1, x1}, 0 };									// 처음 위치 구조체 값들을 전부 초기화.
-						gotoxy(x1, y1);
-						printf("%c", catchPiece->name);
+
+						pieceDraw(board, x1, y1);
+						pieceDraw(board, x2, y2);
+						printPosition(x2, y2);
 
 						printGibofor_txtf(Gibo, whatturn, 'A', 'P', x1, y1, x2, y2, ' ');
 						printGibofor_console(whatturn, 'P', x1, y1, x2, y2, ' ');
