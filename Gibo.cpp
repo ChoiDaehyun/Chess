@@ -1,6 +1,6 @@
-#include "Gibo.h"
+ï»¿#include "Gibo.h"
 
-/*°ÔÀÓÀÌ ³¡³­ ÈÄ ±âº¸ ÀúÀåÇÏ´Â ÇÔ¼ö*/
+/*ê²Œì„ì´ ëë‚œ í›„ ê¸°ë³´ ì €ì¥í•˜ëŠ” í•¨ìˆ˜*/
 void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)[7], char(*replay_GiboB)[7], char(*replay_GiboC)[7], char(*replay_GiboD)[7])
 {
 	FILE* giboA = fopen(addressA, "wt");
@@ -86,7 +86,7 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 }
 
 
-/*A,B,C,D¿¡ ÀÖ´ø ±âº¸¸¦ °¡Á®¿À´Â ÇÔ¼ö*/
+/*A,B,C,Dì— ìˆë˜ ê¸°ë³´ë¥¼ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜*/
 void getGibofrom_txt(char(*replay_GiboA)[7], char(*replay_GiboB)[7], char(*replay_GiboC)[7], char(*replay_GiboD)[7])
 {
 
@@ -165,8 +165,8 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 {
 	system("cls");
 	Piece** board;
-	board = pieceInit(); //board ÃÊ±âÈ­
-	boardDraw(board); //board Ãâ·Â
+	board = pieceInit(); //board ì´ˆê¸°í™”
+	boardDraw(board); //board ì¶œë ¥
 	int turn = 1;
 	int n = 0;
 	int color;
@@ -209,7 +209,7 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 
 		if (got_Gibo[*whatturn][0] == 'B')
 		{
-			board[y2][x2] = { changed, {y2,x2}, board[y1][x1].exist, 0, 0 };			// ÇÁ·Î¸ğ¼Ç
+			board[y2][x2] = { changed, {y2,x2}, board[y1][x1].exist, 0, 0 };			// í”„ë¡œëª¨ì…˜
 			gotoxy(x2, y2);
 			if ((x2 + y2) % 2 == 0) setColor(color, green); //set background color 
 			else setColor(color, brown);
@@ -219,12 +219,12 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 
 		if (got_Gibo[*whatturn][1] == 'P')
 		{
-			if (((y2 - y1) == 2) || ((y2 - y1) == -2))							// µÎÄ­À» ÀÌµ¿(ÀüÁø)ÇÏ¿´´Ù¸é
-				board[y1 + ((y2 - y1) / 2)][x1].en_passant = turn;				// ÈÄ¹æ ÇÑÄ­ÂÊ¿¡ ¾ÓÆÄ»ó°ª ¼³Á¤.
+			if (((y2 - y1) == 2) || ((y2 - y1) == -2))							// ë‘ì¹¸ì„ ì´ë™(ì „ì§„)í•˜ì˜€ë‹¤ë©´
+				board[y1 + ((y2 - y1) / 2)][x1].en_passant = turn;				// í›„ë°© í•œì¹¸ìª½ì— ì•™íŒŒìƒê°’ ì„¤ì •.
 
-			if (board[y2][x2].en_passant != 0)									// ¾ÓÆÄ»óÀÌ¾ú´Ù¸é					// ¿©±â ÇØ°á ¾ÈµÊ.
+			if (board[y2][x2].en_passant != 0)									// ì•™íŒŒìƒì´ì—ˆë‹¤ë©´					// ì—¬ê¸° í•´ê²° ì•ˆë¨.
 			{
-				board[y1][x2] = { '-', {y1, x2}, 0,0,0 };						// ¾ÓÆÄ»ó¿¡ ´çÇÑ(?) ¸» Á¦°Å
+				board[y1][x2] = { '-', {y1, x2}, 0,0,0 };						// ì•™íŒŒìƒì— ë‹¹í•œ(?) ë§ ì œê±°
 				gotoxy(x2, y1);
 				if ((x2 + y1) % 2 == 0) setColor(black, green); //set background color 
 				else setColor(black, brown);
@@ -234,10 +234,10 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 		}
 		if (got_Gibo[*whatturn][1] == 'K')
 		{
-			if ((x2 - x1) == 2)													// Å·ÀÌ ¿À¸¥ÂÊÀ¸·Î µÎÄ­ ÀÌµ¿ÇÏ¿´´Ù¸é
-			{																	// -> Ä³½½¸µ
-				board[y1][7] = { '-', {y1,7},0,0,0 };							// Ã³À½ ·è À§Ä¡ Áö¿ì°í
-				board[y1][5] = { 'R', {y1,5},turn, 0,0 };						// ÀÌµ¿µÉ À§Ä¡¿¡ ·è µÎ±â
+			if ((x2 - x1) == 2)													// í‚¹ì´ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ë‘ì¹¸ ì´ë™í•˜ì˜€ë‹¤ë©´
+			{																	// -> ìºìŠ¬ë§
+				board[y1][7] = { '-', {y1,7},0,0,0 };							// ì²˜ìŒ ë£© ìœ„ì¹˜ ì§€ìš°ê³ 
+				board[y1][5] = { 'R', {y1,5},turn, 0,0 };						// ì´ë™ë  ìœ„ì¹˜ì— ë£© ë‘ê¸°
 				gotoxy(7, y1);
 				if ((7 + y1) % 2 == 0) setColor(black, green); //set background color 
 				else setColor(black, brown);
@@ -247,10 +247,10 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 				else setColor(color, brown);
 				printf("%c", board[y1][5].name);
 			}
-			else if ((x2 - x1) == -2)											// Å·ÀÌ ¿ŞÂÊÀ¸·Î µÎÄ­ ÀÌµ¿ÇÏ¿´´Ù¸é
-			{																	// -> ¸¶Âù°¡Áö·Î Ä³½½¸µ
-				board[y1][0] = { '-', {y1,0},0,0,0 };							// Ã³À½ ·è À§Ä¡ Áö¿ì°í
-				board[y1][3] = { 'R', {y1,3},turn, 0,0 };						// ÀÌµ¿µÉ À§Ä¡¿¡ ·è µÎ±â
+			else if ((x2 - x1) == -2)											// í‚¹ì´ ì™¼ìª½ìœ¼ë¡œ ë‘ì¹¸ ì´ë™í•˜ì˜€ë‹¤ë©´
+			{																	// -> ë§ˆì°¬ê°€ì§€ë¡œ ìºìŠ¬ë§
+				board[y1][0] = { '-', {y1,0},0,0,0 };							// ì²˜ìŒ ë£© ìœ„ì¹˜ ì§€ìš°ê³ 
+				board[y1][3] = { 'R', {y1,3},turn, 0,0 };						// ì´ë™ë  ìœ„ì¹˜ì— ë£© ë‘ê¸°
 				gotoxy(0, y1);
 				if ((0 + y1) % 2 == 0) setColor(black, green); //set background color 
 				else setColor(black, brown);
@@ -282,7 +282,7 @@ int txtf_to_chessboard(char(*got_Gibo)[7], int* whatturn)
 
 		if (board[y2][x2].name == 'K') {
 			setColor(white, black);
-			printf("½ºÆäÀÌ½º¹Ù¸¦ ´©¸£¸é ¸Ş´ºÈ­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù");
+			printf("ìŠ¤í˜ì´ìŠ¤ë°”ë¥¼ ëˆ„ë¥´ë©´ ë©”ë‰´í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
 
 			while (true) {
 				if (keyControl() == SUBMIT) 

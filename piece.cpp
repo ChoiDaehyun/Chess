@@ -425,7 +425,11 @@ int Queen_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, 
 				int success = 0;
 				recurse_Rook(board, *catchPiece, &catchPiece2, catchPiece2, &success, name, whatturn, Gibo);
 				if (success == 1)
+				{
+					if (whatname == 'K')
+						*win = turn;
 					return 1;
+				}
 			}
 			else if (((((catchPiece2.pos[1] + catchPiece2.pos[0]) == (catchPiece->pos[1] + catchPiece->pos[0]))) || ((catchPiece->pos[0] - catchPiece->pos[1]) == (catchPiece2.pos[0] - catchPiece2.pos[1]))) && (catchPiece2.exist != turn))
 				//선택한 곳이 대각선 상에 존재하고 같은종류의 말이 아닐 경우
