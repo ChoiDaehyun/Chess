@@ -8,9 +8,15 @@ int main() {
 	int GiboCode;
 	init();
 
-	char Gibo[100][7] = { 0 };				// 기보 저장할 곳
-	char savewhere;					// A, B, C, D
+	char (*Gibo1)[7] = {0};				// 기보 저장할 곳
+	char Gibo[100][7] = {0};
+	char savewhere = 0;					// A, B, C, D
 	int whatturn = 0;
+
+	char replay_giboA[100][7] = { 0 };
+	char replay_giboB[100][7] = { 0 };
+	char replay_giboC[100][7] = { 0 };
+	char replay_giboD[100][7] = { 0 };
 
 	//printf("\u2654");
 	//_wsetlocale(LC_ALL, L"Korea");
@@ -22,10 +28,7 @@ int main() {
 		titleDraw();
 		menuCode = menuDraw();
 
-		char replay_giboA[100][7] = { 0 };
-		char replay_giboB[100][7] = { 0 };
-		char replay_giboC[100][7] = { 0 };
-		char replay_giboD[100][7] = { 0 };
+
 		getGibofrom_txt(replay_giboA, replay_giboB, replay_giboC, replay_giboD);
 
 		switch (menuCode)
@@ -56,30 +59,34 @@ int main() {
 				savewhere = 'C';  break;
 			case 3:
 				savewhere = 'D';  break;
-			}	
+			}
 
 			// (****) 미리 텍스트파일 속 정보 가져오기 (****)
-				push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
+			push_Gibo(Gibo, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
 			return 0;	//메뉴 화면으로
 
-		}			
+		}
 		case 1: infoDraw(); break; //게임 정보
 		case 2: GiboCode = GiboDraw();
 			switch (GiboCode)
 			{
 			case 0:
-				txtf_to_chessboard(replay_giboA, &whatturn);
+				Gibo1 = replay_giboA;
+				txtf_to_chessboard(Gibo1, &whatturn);
 				break;
 			case 1:
-				txtf_to_chessboard(replay_giboB, &whatturn);
+				Gibo1 = replay_giboB;
+				txtf_to_chessboard(Gibo1, &whatturn);
 				break;
 			case 2:
-				txtf_to_chessboard(replay_giboC, &whatturn);
+				Gibo1 = replay_giboC;
+				txtf_to_chessboard(Gibo1, &whatturn);
 				break;
 			case 3:
-				txtf_to_chessboard(replay_giboD, &whatturn);
-			} 
-			
+				Gibo1 = replay_giboD;
+				txtf_to_chessboard(Gibo1, &whatturn);
+			}
+
 			gotoxy(38, 11);
 			printf("[기보 저장]");
 			setColor(white, black);
@@ -96,11 +103,13 @@ int main() {
 			case 3:
 				savewhere = 'D';  break;
 			}
+			push_Gibo(Gibo1, savewhere, whatturn, replay_giboA, replay_giboB, replay_giboC, replay_giboD);
 			return 0;
 		case 3: return 0; //종료
 		}
 		system("cls");
+
+		return 0;
 	}
 
-	return 0;
 }

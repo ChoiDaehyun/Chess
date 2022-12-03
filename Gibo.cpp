@@ -3,6 +3,7 @@
 /*게임이 끝난 후 기보 저장하는 함수*/
 void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)[7], char(*replay_GiboB)[7], char(*replay_GiboC)[7], char(*replay_GiboD)[7])
 {
+
 	FILE* giboA = fopen(addressA, "wt");
 	FILE* giboB = fopen(addressB, "wt");
 	FILE* giboC = fopen(addressC, "wt");
@@ -14,7 +15,11 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 			if (replay_GiboA[i][0] == -1)
 				break;
 			for (int j = 0; j < 7; j++)
-				fputc((replay_GiboA[i][j]), giboA);
+			{
+				fputc(replay_GiboA[i][j], giboA);
+			}
+
+			fputc('\n', giboA);
 		}
 
 	if (savewhere != 'B')
@@ -23,7 +28,11 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 			if (replay_GiboB[i][0] == -1)
 				break;
 			for (int j = 0; j < 7; j++)
-				fputc((replay_GiboB[i][j]), giboB);
+			{
+				fputc(replay_GiboB[i][j], giboB);
+			}
+
+			fputc('\n', giboB);
 		}
 
 	if (savewhere != 'C')
@@ -32,7 +41,11 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 			if (replay_GiboC[i][0] == -1)
 				break;
 			for (int j = 0; j < 7; j++)
-				fputc((replay_GiboC[i][j]), giboC);
+			{
+				fputc(replay_GiboC[i][j], giboC);
+			}
+
+			fputc('\n', giboC);
 		}
 
 	if (savewhere != 'D')
@@ -41,7 +54,11 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 			if (replay_GiboD[i][0] == -1)
 				break;
 			for (int j = 0; j < 7; j++)
-				fputc((replay_GiboD[i][j]), giboD);
+			{
+				fputc(replay_GiboD[i][j], giboD);
+			}
+
+			fputc('\n', giboD);
 		}
 
 	switch (savewhere)
@@ -50,14 +67,20 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 		for (int i = 0; i < (whatturn + 1); i++)
 		{
 			for (int j = 0; j < 7; j++)
+			{
 				fputc((Gibo[i][j]), giboA);
+			}
+
 			fputc('\n', giboA);
 		} break;
 	case 'B': 
 		for (int i = 0; i < (whatturn + 1); i++)
 		{
 			for (int j = 0; j < 7; j++)
+			{
 				fputc((Gibo[i][j]), giboB);
+			}
+
 			fputc('\n', giboB);
 		} break;
 	case 'C':
@@ -65,14 +88,20 @@ void push_Gibo(char(*Gibo)[7], char savewhere, int whatturn, char(*replay_GiboA)
 		for (int i = 0; i < (whatturn + 1); i++)
 		{
 			for (int j = 0; j < 7; j++)
+			{
 				fputc((Gibo[i][j]), giboC);
+			}
+
 			fputc('\n', giboC);
 		} break;
 	case 'D': 
 		for (int i = 0; i < (whatturn + 1); i++)
 		{
 			for (int j = 0; j < 7; j++)
+			{
 				fputc((Gibo[i][j]), giboD);
+			}
+
 			fputc('\n', giboD);
 		} break;
 	}
@@ -167,7 +196,10 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 	Piece** board;
 	board = pieceInit(); //board 초기화
 	boardDraw(board); //board 출력
-
+	gotoxy(10, 6);
+	printf("[→] key   : 다음");
+	gotoxy(10, 7);
+	printf("[spacebar] : 리플레이");
 
 	int turn;
 	int n = 0;
@@ -268,14 +300,14 @@ int txtf_to_chessboard(char (*got_Gibo)[7], int* whatturn)
 			if ((x2 - x1) == 2)													// 킹이 오른쪽으로 두칸 이동하였다면
 			{																	// -> 캐슬링
 				board[y1][7] = { '-', {y1,7},0,0,0 };							// 처음 룩 위치 지우고
-				board[y1][5] = { 'R', {y1,5},turn, 0,0 };						// 이동될 위치에 룩 두기
+				board[y1][5] = { 'R', {y1,5},turn*(-1), 0,0};						// 이동될 위치에 룩 두기
 				pieceDraw(board, 7, y1);
 				pieceDraw(board, 5, y1);
 			}
 			else if ((x2 - x1) == -2)											// 킹이 왼쪽으로 두칸 이동하였다면
 			{																	// -> 마찬가지로 캐슬링
 				board[y1][0] = { '-', {y1,0},0,0,0 };							// 처음 룩 위치 지우고
-				board[y1][3] = { 'R', {y1,3},turn, 0,0 };						// 이동될 위치에 룩 두기
+				board[y1][3] = { 'R', {y1,3},turn*(-1), 0,0};						// 이동될 위치에 룩 두기
 				pieceDraw(board, 0, y1);
 				pieceDraw(board, 3, y1);
 			}

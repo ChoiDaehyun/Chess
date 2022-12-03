@@ -129,7 +129,7 @@ void printPosition(int x, int y)
 int Rook_move(Piece** board, Piece* catchPiece, int turn, char name, int* win, int whatturn, char (*Gibo)[7])						// 움직임 성공했다면 return 1;		움직임 실패했다면 return 0;
 {
 	gotoxy(0, 8); setColor(white, black);
-	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To :                ");
+	printf("From : %d,%d\n", catchPiece->pos[0], catchPiece->pos[1]); printf("To : ");
 	int x = catchPiece->pos[1];
 	int y = catchPiece->pos[0];
 	while (1)
@@ -968,7 +968,7 @@ int Pawn_move(Piece** board, Piece* catchPiece, int turn, int* win, int whatturn
 
 
 
-void printGibofor_txtf(char  (*Gibo)[7], int whatturn, char type, char moved_thing, int x1, int y1, int x2, int y2, char changed)
+void printGibofor_txtf(char (*Gibo)[7], int whatturn, char type, char moved_thing, int x1, int y1, int x2, int y2, char changed)
 {
 	Gibo[whatturn][0] = type;
 	Gibo[whatturn][1] = moved_thing;
