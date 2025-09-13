@@ -27,7 +27,7 @@ C언어로 구현한 체스
 
 
 ### 게임 방법
-<img width="450" height="394" alt="방법" src="https://github.com/user-attachments/assets/bd01e79e-1cce-4678-a5ab-8916139330bb" />
+<img width="400" height="300" alt="방법" src="https://github.com/user-attachments/assets/bd01e79e-1cce-4678-a5ab-8916139330bb" />
 <img width="502" height="394" alt="특수규칙" src="https://github.com/user-attachments/assets/e349ca1e-c520-40d7-a5d0-9c664dfd9031" />
 
 
