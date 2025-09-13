@@ -41,7 +41,7 @@ C언어로 구현한 체스
 
 ### 기보 복기
 <img width="313" height="259" alt="복기" src="https://github.com/user-attachments/assets/a3958265-b2d8-4e0d-a7bb-1af3c5998497" />
-<img width="313" height="259" alt="리플레이" src="https://github.com/user-attachments/assets/e481892d-274f-4b8a-9d0b-991ec5628931" />
+<img width="400" height="350" alt="리플레이" src="https://github.com/user-attachments/assets/e481892d-274f-4b8a-9d0b-991ec5628931" />
 
 
 플레이 했던 게임을 복기할 수 있다.
