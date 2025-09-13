@@ -16,7 +16,7 @@ C언어로 구현한 체스
 
 ### 게임 시작
 <img width="240" height="226" alt="게임 시작" src="https://github.com/user-attachments/assets/85410cc4-e173-41d1-b94a-6ebcef37e67e" />
-<img width="449" height="310" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
+<img width="240" height="226" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
 
 
 체스를 둘 수 있다.
