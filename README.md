@@ -15,8 +15,8 @@ C언어로 구현한 체스
 
 
 ### 게임 시작
-<img width="250" height="250" alt="게임 시작" src="https://github.com/user-attachments/assets/85410cc4-e173-41d1-b94a-6ebcef37e67e" />
-<img width="250" height="250" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
+<img width="240" height="266" alt="게임 시작" src="https://github.com/user-attachments/assets/85410cc4-e173-41d1-b94a-6ebcef37e67e" />
+<img width="240" height="266" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
 
 
 체스를 둘 수 있다.
@@ -28,7 +28,7 @@ C언어로 구현한 체스
 
 ### 게임 방법
 <img width="502" height="394" alt="방법" src="https://github.com/user-attachments/assets/bd01e79e-1cce-4678-a5ab-8916139330bb" />
-<img width="601" height="348" alt="특수규칙" src="https://github.com/user-attachments/assets/e349ca1e-c520-40d7-a5d0-9c664dfd9031" />
+<img width="502" height="394" alt="특수규칙" src="https://github.com/user-attachments/assets/e349ca1e-c520-40d7-a5d0-9c664dfd9031" />
 
 
 게임 방법을 누르면 게임의 조작법을 안내한다.
