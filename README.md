@@ -16,12 +16,14 @@ C언어로 구현한 체스
 
 ### 게임 시작
 <img width="240" height="226" alt="게임 시작" src="https://github.com/user-attachments/assets/85410cc4-e173-41d1-b94a-6ebcef37e67e" />
-<img width="245" height="225" alt="게임 플레이" src="https://github.com/user-attachments/assets/65dccbc9-2904-46fa-a838-c5bff8611ea7" />
+<img width="449" height="310" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
 
 
 체스를 둘 수 있다.
 
 기물의 행마법대로 이동할 수 있다.
+
+실제 체크 메이트 조건이 아닌 킹을 잡으면 게임이 종료된다. 
 
 
 ### 게임 방법
@@ -39,6 +41,7 @@ C언어로 구현한 체스
 
 ### 기보 복기
 <img width="313" height="259" alt="복기" src="https://github.com/user-attachments/assets/a3958265-b2d8-4e0d-a7bb-1af3c5998497" />
+<img width="292" height="168" alt="리플레이" src="https://github.com/user-attachments/assets/e481892d-274f-4b8a-9d0b-991ec5628931" />
 
 
 플레이 했던 게임을 복기할 수 있다.
