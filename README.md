@@ -15,9 +15,8 @@ C언어로 구현한 체스
 
 
 ### 게임 시작
-<img width="240" height="266" alt="게임 시작" src="https://github.com/user-attachments/assets/85410cc4-e173-41d1-b94a-6ebcef37e67e" />
-<img width="328" height="490" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
-
+<img width="240" height="266" alt="게임 시작" src="https://github.com/user-attachments/assets/85410cc4-e173-41d1-b94a-6ebcef37e67e" />|<img width="328" height="490" alt="체크메이트" src="https://github.com/user-attachments/assets/8a38820b-d243-4069-9ddb-2fc305025d53" />
+---|---|
 
 체스를 둘 수 있다.
 
@@ -27,9 +26,8 @@ C언어로 구현한 체스
 
 
 ### 게임 방법
-<img width="400" height="300" alt="방법" src="https://github.com/user-attachments/assets/bd01e79e-1cce-4678-a5ab-8916139330bb" />
-<img width="518" height="438" alt="특수규칙" src="https://github.com/user-attachments/assets/e349ca1e-c520-40d7-a5d0-9c664dfd9031" />
-
+<img width="400" height="300" alt="방법" src="https://github.com/user-attachments/assets/bd01e79e-1cce-4678-a5ab-8916139330bb" />|<img width="518" height="438" alt="특수규칙" src="https://github.com/user-attachments/assets/e349ca1e-c520-40d7-a5d0-9c664dfd9031" />
+---|---|
 
 게임 방법을 누르면 게임의 조작법을 안내한다.
 
@@ -40,8 +38,8 @@ C언어로 구현한 체스
 
 
 ### 기보 복기
-<img width="280" height="230" alt="복기" src="https://github.com/user-attachments/assets/a3958265-b2d8-4e0d-a7bb-1af3c5998497" />
-<img width="400" height="350" alt="리플레이" src="https://github.com/user-attachments/assets/e481892d-274f-4b8a-9d0b-991ec5628931" />
+<img width="280" height="230" alt="복기" src="https://github.com/user-attachments/assets/a3958265-b2d8-4e0d-a7bb-1af3c5998497" />|<img width="400" height="350" alt="리플레이" src="https://github.com/user-attachments/assets/e481892d-274f-4b8a-9d0b-991ec5628931" />
+---|---|
 
 
 플레이 했던 게임을 복기할 수 있다.
